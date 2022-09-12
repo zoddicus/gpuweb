@@ -645,13 +645,13 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebGPU Shading Language</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-09-08">8 September 2022</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-09-12">12 September 2022</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
      <dl>
       <dt>This version:
-      <dd><a class="u-url" href="https://gpuweb.github.io/gpuweb/wgsl/">https://gpuweb.github.io/gpuweb/wgsl/</a><br><a href="https://github.com/gpuweb/gpuweb/blob/91cd383c3350e1f5db3798890350c44347e91694/wgsl/index.bs">https://github.com/gpuweb/gpuweb/blob/91cd383c3350e1f5db3798890350c44347e91694/wgsl/index.bs</a>
+      <dd><a class="u-url" href="https://gpuweb.github.io/gpuweb/wgsl/">https://gpuweb.github.io/gpuweb/wgsl/</a><br><a href="https://github.com/gpuweb/gpuweb/blob/71d6c2c905cf1a88215001822ef70ed60777e0ef/wgsl/index.bs">https://github.com/gpuweb/gpuweb/blob/71d6c2c905cf1a88215001822ef70ed60777e0ef/wgsl/index.bs</a>
       <dt>Latest published version:
       <dd><a href="https://www.w3.org/TR/WGSL/">https://www.w3.org/TR/WGSL/</a>
       <dt>Feedback:
@@ -712,7 +712,12 @@ Learn more about <a href="http://www.w3.org/community/">W3C Community and Busine
       <li><a href="#blankspace-and-line-breaks"><span class="secno">3.2</span> <span class="content">Blankspace and line breaks</span></a>
       <li><a href="#comments"><span class="secno">3.3</span> <span class="content">Comments</span></a>
       <li><a href="#tokens"><span class="secno">3.4</span> <span class="content">Tokens</span></a>
-      <li><a href="#literals"><span class="secno">3.5</span> <span class="content">Literals</span></a>
+      <li>
+       <a href="#literals"><span class="secno">3.5</span> <span class="content">Literals</span></a>
+       <ol class="toc">
+        <li><a href="#boolean-literals"><span class="secno">3.5.1</span> <span class="content">Boolean Literals</span></a>
+        <li><a href="#numeric-literals"><span class="secno">3.5.2</span> <span class="content">Numeric Literals</span></a>
+       </ol>
       <li><a href="#keywords"><span class="secno">3.6</span> <span class="content">Keywords</span></a>
       <li>
        <a href="#identifiers"><span class="secno">3.7</span> <span class="content">Identifiers</span></a>
@@ -917,7 +922,7 @@ Learn more about <a href="http://www.w3.org/community/">W3C Community and Busine
        <a href="#shader-interface"><span class="secno">10.3</span> <span class="content">Shader Interface</span></a>
        <ol class="toc">
         <li>
-         <a href="#pipeline-inputs-outputs"><span class="secno">10.3.1</span> <span class="content">Pipeline Input and Output Interface</span></a>
+         <a href="#stage-inputs-outputs"><span class="secno">10.3.1</span> <span class="content">Inter-stage Input and Output Interface</span></a>
          <ol class="toc">
           <li><a href="#builtin-inputs-outputs"><span class="secno">10.3.1.1</span> <span class="content">Built-in Inputs and Outputs</span></a>
           <li><a href="#user-defined-inputs-outputs"><span class="secno">10.3.1.2</span> <span class="content">User-defined Inputs and Outputs</span></a>
@@ -1184,9 +1189,9 @@ that run on the GPU.</p>
 WGSL is concerned with two kinds of GPU commands:</p>
    <ul>
     <li data-md>
-     <p>a <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="draw-command">draw command</dfn> executes a <a data-link-type="dfn" href="#gpurenderpipeline" id="ref-for-gpurenderpipeline">render pipeline</a> in the context of <a data-link-type="dfn" href="#pipeline-input" id="ref-for-pipeline-input">inputs</a>, <a data-link-type="dfn" href="#pipeline-output" id="ref-for-pipeline-output">outputs</a>, and attached <a data-link-type="dfn" href="#resource" id="ref-for-resource">resources</a>.</p>
+     <p>a <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="draw-command">draw command</dfn> executes a <a data-link-type="dfn" href="#gpurenderpipeline" id="ref-for-gpurenderpipeline">render pipeline</a> in the context of <a data-link-type="dfn" href="#shader-stage-input" id="ref-for-shader-stage-input">inputs</a>, <a data-link-type="dfn" href="#shader-stage-output" id="ref-for-shader-stage-output">outputs</a>, and attached <a data-link-type="dfn" href="#resource" id="ref-for-resource">resources</a>.</p>
     <li data-md>
-     <p>a <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="dispatch-command">dispatch command</dfn> executes a <a data-link-type="dfn" href="#gpucomputepipeline" id="ref-for-gpucomputepipeline">compute pipeline</a> in the context of <a data-link-type="dfn" href="#pipeline-input" id="ref-for-pipeline-input①">inputs</a> and attached <a data-link-type="dfn" href="#resource" id="ref-for-resource①">resources</a>.</p>
+     <p>a <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="dispatch-command">dispatch command</dfn> executes a <a data-link-type="dfn" href="#gpucomputepipeline" id="ref-for-gpucomputepipeline">compute pipeline</a> in the context of <a data-link-type="dfn" href="#shader-stage-input" id="ref-for-shader-stage-input①">inputs</a> and attached <a data-link-type="dfn" href="#resource" id="ref-for-resource①">resources</a>.</p>
    </ul>
    <p>Both kinds of pipelines use shaders written in WGSL.</p>
    <p>A <dfn data-dfn-type="dfn" data-noexport id="shader">shader<a class="self-link" href="#shader"></a></dfn> is the portion of a WGSL program that executes a <a data-link-type="dfn" href="#shader-stages" id="ref-for-shader-stages">shader stage</a> in a pipeline.
@@ -1217,9 +1222,9 @@ making the contents of those resources available to the shader during execution.
      <p>Allocates memory for other <a data-link-type="dfn" href="#module-scope" id="ref-for-module-scope①">module-scope</a> variables,
 and populates that memory with the specified initial values.</p>
     <li data-md>
-     <p>Populates the formal parameters of the entry point, if they exist, with the stage’s pipeline inputs.</p>
+     <p>Populates the formal parameters of the entry point, if they exist, with the shader stage’s inputs.</p>
     <li data-md>
-     <p>Connects the entry point <a data-link-type="dfn" href="#return-value" id="ref-for-return-value">return value</a>, if one exists, to the stage’s pipeline outputs.</p>
+     <p>Connects the entry point <a data-link-type="dfn" href="#return-value" id="ref-for-return-value">return value</a>, if one exists, to the shader stage’s outputs.</p>
     <li data-md>
      <p>Then it invokes the entry point.</p>
    </ul>
@@ -1294,7 +1299,7 @@ Invocations in a shader stage share access to certain variables:</p>
  variables in the <a data-link-type="dfn" href="#address-spaces-workgroup" id="ref-for-address-spaces-workgroup">workgroup</a> <a data-link-type="dfn" href="#address-spaces" id="ref-for-address-spaces">address space</a>.
  Invocations in different workgroups do not share those variables.</p>
    </ul>
-   <p>However, the invocations act on different sets of pipeline inputs, including built-in inputs
+   <p>However, the invocations act on different sets of shader stage inputs, including built-in inputs
 that provide an identifying value to distinguish an invocation from its peers.
 Each invocation has its own independent memory space in the form
 of variables in the <a data-link-type="dfn" href="#address-spaces-private" id="ref-for-address-spaces-private">private</a> and <a data-link-type="dfn" href="#address-spaces-function" id="ref-for-address-spaces-function">function</a> address spaces.</p>
@@ -1619,6 +1624,13 @@ This is a consequence of the Pumping Lemma for Regular Languages.</p>
      <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="numeric-literal">numeric literal</dfn>: either an <a data-link-type="dfn" href="#integer-literal" id="ref-for-integer-literal">integer literal</a> or a <a data-link-type="dfn" href="#floating-point-literal" id="ref-for-floating-point-literal">floating point literal</a>,
 and is used to represent a number.</p>
    </ul>
+   <div class="syntax">
+     <dfn class="dfn-paneled" data-dfn-for="syntax" data-dfn-type="dfn" data-noexport id="syntax-literal">literal</dfn> : 
+    <p>| <a data-link-type="dfn" href="#syntax-int_literal" id="ref-for-syntax-int_literal">int_literal</a></p>
+    <p>| <a data-link-type="dfn" href="#syntax-float_literal" id="ref-for-syntax-float_literal">float_literal</a></p>
+    <p>| <a data-link-type="dfn" href="#syntax-bool_literal" id="ref-for-syntax-bool_literal">bool_literal</a></p>
+   </div>
+   <h4 class="heading settled" data-level="3.5.1" id="boolean-literals"><span class="secno">3.5.1. </span><span class="content">Boolean Literals</span><a class="self-link" href="#boolean-literals"></a></h4>
    <div class="example wgsl bool-literals no-marker" id="example-9be63587">
     <a class="self-link" href="#example-9be63587"></a>
     <div class="marker">EXAMPLE: boolean literals</div>
@@ -1631,6 +1643,7 @@ and is used to represent a number.</p>
     <p>| <a data-link-type="dfn" href="#syntax-true" id="ref-for-syntax-true">true</a></p>
     <p>| <a data-link-type="dfn" href="#syntax-false" id="ref-for-syntax-false">false</a></p>
    </div>
+   <h4 class="heading settled" data-level="3.5.2" id="numeric-literals"><span class="secno">3.5.2. </span><span class="content">Numeric Literals</span><a class="self-link" href="#numeric-literals"></a></h4>
    <p>The form of a <a data-link-type="dfn" href="#numeric-literal" id="ref-for-numeric-literal">numeric literal</a> is defined via pattern-matching.</p>
    <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="integer-literal">integer literal</dfn> is:</p>
    <ul>
@@ -1647,23 +1660,36 @@ and is used to represent a number.</p>
     <li data-md>
      <p>Then an optional <code>i</code> or <code>u</code> suffix.</p>
    </ul>
-   <div class="example wgsl int-literals no-marker" id="example-92736fe8">
-    <a class="self-link" href="#example-92736fe8"></a>
-    <div class="marker">EXAMPLE: integer literals</div>
-<pre class="highlight"><c- k>const</c-> <c- n>a</c-> <c- o>=</c-> <c- mh>0x123</c-><c- p>;</c->
-<c- k>const</c-> <c- n>b</c-> <c- o>=</c-> <c- mh>0X123</c-><c- n>u</c-><c- p>;</c->
-<c- k>const</c-> <c- n>c</c-> <c- o>=</c-> <c- mi>1</c-><c- n>u</c-><c- p>;</c->
-<c- k>const</c-> <c- n>d</c-> <c- o>=</c-> <c- mi>123</c-><c- p>;</c->
-<c- k>const</c-> <c- n>e</c-> <c- o>=</c-> <c- mi>0</c-><c- p>;</c->
-<c- k>const</c-> <c- n>f</c-> <c- o>=</c-> <c- mi>0</c-><c- n>i</c-><c- p>;</c->
-<c- k>const</c-> <c- n>g</c-> <c- o>=</c-> <c- mh>0x3f</c-><c- p>;</c->
+   <div class="syntax">
+     <dfn class="dfn-paneled" data-dfn-for="syntax" data-dfn-type="dfn" data-noexport id="syntax-int_literal">int_literal</dfn> : 
+    <p>| <a data-link-type="dfn" href="#syntax-decimal_int_literal" id="ref-for-syntax-decimal_int_literal">decimal_int_literal</a></p>
+    <p>| <a data-link-type="dfn" href="#syntax-hex_int_literal" id="ref-for-syntax-hex_int_literal">hex_int_literal</a></p>
+   </div>
+   <div class="syntax">
+     <dfn class="dfn-paneled" data-dfn-for="syntax" data-dfn-type="dfn" data-noexport id="syntax-decimal_int_literal">decimal_int_literal</dfn> : 
+    <p>| <code>/0[iu]?/</code></p>
+    <p>| <code>/[1-9][0-9]*[iu]?/</code></p>
+   </div>
+   <div class="example wgsl decimal-int-literals no-marker" id="example-47a565cc">
+    <a class="self-link" href="#example-47a565cc"></a>
+    <div class="marker">EXAMPLE: decimal integer literals</div>
+<pre class="highlight"><c- k>const</c-> <c- n>a</c-> <c- o>=</c-> <c- mi>1</c-><c- n>u</c-><c- p>;</c->
+<c- k>const</c-> <c- n>b</c-> <c- o>=</c-> <c- mi>123</c-><c- p>;</c->
+<c- k>const</c-> <c- n>c</c-> <c- o>=</c-> <c- mi>0</c-><c- p>;</c->
+<c- k>const</c-> <c- n>d</c-> <c- o>=</c-> <c- mi>0</c-><c- n>i</c-><c- p>;</c->
 </pre>
    </div>
    <div class="syntax">
-     <dfn class="dfn-paneled" data-dfn-for="syntax" data-dfn-type="dfn" data-noexport id="syntax-int_literal">int_literal</dfn> : 
+     <dfn class="dfn-paneled" data-dfn-for="syntax" data-dfn-type="dfn" data-noexport id="syntax-hex_int_literal">hex_int_literal</dfn> : 
     <p>| <code>/0[xX][0-9a-fA-F]+[iu]?/</code></p>
-    <p>| <code>/0[iu]?/</code></p>
-    <p>| <code>/[1-9][0-9]*[iu]?/</code></p>
+   </div>
+   <div class="example wgsl hexadecimal-int-literals no-marker" id="example-12578b1a">
+    <a class="self-link" href="#example-12578b1a"></a>
+    <div class="marker">EXAMPLE: hexadecimal integer literals</div>
+<pre class="highlight"><c- k>const</c-> <c- n>a</c-> <c- o>=</c-> <c- mh>0x123</c-><c- p>;</c->
+<c- k>const</c-> <c- n>b</c-> <c- o>=</c-> <c- mh>0X123</c-><c- n>u</c-><c- p>;</c->
+<c- k>const</c-> <c- n>c</c-> <c- o>=</c-> <c- mh>0x3f</c-><c- p>;</c->
+</pre>
    </div>
    <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="floating-point-literal">floating point literal</dfn> is either a <a data-link-type="dfn" href="#decimal-floating-point-literal" id="ref-for-decimal-floating-point-literal">decimal floating point literal</a> or a <a data-link-type="dfn" href="#hexadecimal-floating-point-literal" id="ref-for-hexadecimal-floating-point-literal">hexadecimal floating point literal</a>.</p>
    <ul>
@@ -1714,24 +1740,6 @@ and is used to represent a number.</p>
  When no exponent is specified, an exponent of 0 is assumed.</p>
      </ul>
    </ul>
-   <div class="example wgsl float-literals no-marker" id="example-8ea5bcd9">
-    <a class="self-link" href="#example-8ea5bcd9"></a>
-    <div class="marker">EXAMPLE: floating point literals</div>
-<pre class="highlight"><c- k>const</c-> <c- n>a</c-> <c- o>=</c-> <c- mf>0.</c-><c- n>e</c-><c- o>+</c-><c- mi>4</c-><c- n>f</c-><c- p>;</c->
-<c- k>const</c-> <c- n>b</c-> <c- o>=</c-> <c- mf>01.</c-><c- p>;</c->
-<c- k>const</c-> <c- n>c</c-> <c- o>=</c-> <c- p>.</c-><c- mi>01</c-><c- p>;</c->
-<c- k>const</c-> <c- n>d</c-> <c- o>=</c-> <c- mf>12.34</c-><c- p>;</c->
-<c- k>const</c-> <c- n>f</c-> <c- o>=</c-> <c- p>.</c-><c- mi>0</c-><c- n>f</c-><c- p>;</c->
-<c- k>const</c-> <c- n>g</c-> <c- o>=</c-> <c- mi>0</c-><c- n>h</c-><c- p>;</c->
-<c- k>const</c-> <c- n>h</c-> <c- o>=</c-> <c- mf>1e-3</c-><c- p>;</c->
-<c- k>const</c-> <c- n>i</c-> <c- o>=</c-> <c- mh>0xa</c-><c- p>.</c-><c- n>fp</c-><c- o>+</c-><c- mi>2</c-><c- p>;</c->
-<c- k>const</c-> <c- n>j</c-> <c- o>=</c-> <c- mh>0x1</c-><c- n>P</c-><c- o>+</c-><c- mi>4</c-><c- n>f</c-><c- p>;</c->
-<c- k>const</c-> <c- n>k</c-> <c- o>=</c-> <c- mi>0</c-><c- n>X</c-><c- p>.</c-><c- mi>3</c-><c- p>;</c->
-<c- k>const</c-> <c- n>l</c-> <c- o>=</c-> <c- mh>0x3</c-><c- n>p</c-><c- o>+</c-><c- mi>2</c-><c- n>h</c-><c- p>;</c->
-<c- k>const</c-> <c- n>m</c-> <c- o>=</c-> <c- mh>0X1</c-><c- p>.</c-><c- n>fp</c-><c- o>-</c-><c- mi>4</c-><c- p>;</c->
-<c- k>const</c-> <c- n>n</c-> <c- o>=</c-> <c- mh>0x3</c-><c- p>.</c-><c- mi>2</c-><c- n>p</c-><c- o>+</c-><c- mi>2</c-><c- n>h</c-><c- p>;</c->
-</pre>
-   </div>
    <div class="syntax">
      <dfn class="dfn-paneled" data-dfn-for="syntax" data-dfn-type="dfn" data-noexport id="syntax-float_literal">float_literal</dfn> : 
     <p>| <a data-link-type="dfn" href="#syntax-decimal_float_literal" id="ref-for-syntax-decimal_float_literal">decimal_float_literal</a></p>
@@ -1739,11 +1747,23 @@ and is used to represent a number.</p>
    </div>
    <div class="syntax">
      <dfn class="dfn-paneled" data-dfn-for="syntax" data-dfn-type="dfn" data-noexport id="syntax-decimal_float_literal">decimal_float_literal</dfn> : 
+    <p>| <code>/0[fh]/</code></p>
+    <p>| <code>/[1-9][0-9]*[fh]/</code></p>
     <p>| <code>/[0-9]*\.[0-9]+([eE][+-]?[0-9]+)?[fh]?/</code></p>
     <p>| <code>/[0-9]+\.[0-9]*([eE][+-]?[0-9]+)?[fh]?/</code></p>
     <p>| <code>/[0-9]+[eE][+-]?[0-9]+[fh]?/</code></p>
-    <p>| <code>/0[fh]/</code></p>
-    <p>| <code>/[1-9][0-9]*[fh]/</code></p>
+   </div>
+   <div class="example wgsl decimal-float-literals no-marker" id="example-8103aa35">
+    <a class="self-link" href="#example-8103aa35"></a>
+    <div class="marker">EXAMPLE: decimal floating point literals</div>
+<pre class="highlight"><c- k>const</c-> <c- n>a</c-> <c- o>=</c-> <c- mf>0.</c-><c- n>e</c-><c- o>+</c-><c- mi>4</c-><c- n>f</c-><c- p>;</c->
+<c- k>const</c-> <c- n>b</c-> <c- o>=</c-> <c- mf>01.</c-><c- p>;</c->
+<c- k>const</c-> <c- n>c</c-> <c- o>=</c-> <c- p>.</c-><c- mi>01</c-><c- p>;</c->
+<c- k>const</c-> <c- n>d</c-> <c- o>=</c-> <c- mf>12.34</c-><c- p>;</c->
+<c- k>const</c-> <c- n>f</c-> <c- o>=</c-> <c- p>.</c-><c- mi>0</c-><c- n>f</c-><c- p>;</c->
+<c- k>const</c-> <c- n>g</c-> <c- o>=</c-> <c- mi>0</c-><c- n>h</c-><c- p>;</c->
+<c- k>const</c-> <c- n>h</c-> <c- o>=</c-> <c- mf>1e-3</c-><c- p>;</c->
+</pre>
    </div>
    <div class="syntax">
      <dfn class="dfn-paneled" data-dfn-for="syntax" data-dfn-type="dfn" data-noexport id="syntax-hex_float_literal">hex_float_literal</dfn> : 
@@ -1751,19 +1771,24 @@ and is used to represent a number.</p>
     <p>| <code>/0[xX][0-9a-fA-F]+\.[0-9a-fA-F]*([pP][+-]?[0-9]+[fh]?)?/</code></p>
     <p>| <code>/0[xX][0-9a-fA-F]+[pP][+-]?[0-9]+[fh]?/</code></p>
    </div>
-   <div class="syntax">
-     <dfn class="dfn-paneled" data-dfn-for="syntax" data-dfn-type="dfn" data-noexport id="syntax-const_literal">const_literal</dfn> : 
-    <p>| <a data-link-type="dfn" href="#syntax-int_literal" id="ref-for-syntax-int_literal">int_literal</a></p>
-    <p>| <a data-link-type="dfn" href="#syntax-float_literal" id="ref-for-syntax-float_literal">float_literal</a></p>
-    <p>| <a data-link-type="dfn" href="#syntax-bool_literal" id="ref-for-syntax-bool_literal">bool_literal</a></p>
+   <div class="example wgsl hexadecimal-float-literals no-marker" id="example-36ee2c44">
+    <a class="self-link" href="#example-36ee2c44"></a>
+    <div class="marker">EXAMPLE: hexadecimal floating point literals</div>
+<pre class="highlight"><c- k>const</c-> <c- n>a</c-> <c- o>=</c-> <c- mh>0xa</c-><c- p>.</c-><c- n>fp</c-><c- o>+</c-><c- mi>2</c-><c- p>;</c->
+<c- k>const</c-> <c- n>b</c-> <c- o>=</c-> <c- mh>0x1</c-><c- n>P</c-><c- o>+</c-><c- mi>4</c-><c- n>f</c-><c- p>;</c->
+<c- k>const</c-> <c- n>c</c-> <c- o>=</c-> <c- mi>0</c-><c- n>X</c-><c- p>.</c-><c- mi>3</c-><c- p>;</c->
+<c- k>const</c-> <c- n>d</c-> <c- o>=</c-> <c- mh>0x3</c-><c- n>p</c-><c- o>+</c-><c- mi>2</c-><c- n>h</c-><c- p>;</c->
+<c- k>const</c-> <c- n>e</c-> <c- o>=</c-> <c- mh>0X1</c-><c- p>.</c-><c- n>fp</c-><c- o>-</c-><c- mi>4</c-><c- p>;</c->
+<c- k>const</c-> <c- n>f</c-> <c- o>=</c-> <c- mh>0x3</c-><c- p>.</c-><c- mi>2</c-><c- n>p</c-><c- o>+</c-><c- mi>2</c-><c- n>h</c-><c- p>;</c->
+</pre>
    </div>
    <p>When a <a data-link-type="dfn" href="#numeric-literal" id="ref-for-numeric-literal①">numeric literal</a> has a suffix, the literal denotes a value in a specific <a data-link-type="dfn" href="#type-concrete" id="ref-for-type-concrete②">concrete</a> <a data-link-type="dfn" href="#scalar" id="ref-for-scalar①">scalar</a> type.
 Otherwise, the literal denotes a value one of the <a data-link-type="dfn" href="#abstract-numeric-types" id="ref-for-abstract-numeric-types">abstract numeric types</a> defined below.</p>
    <table class="data">
-    <caption>Mapping literals to types</caption>
+    <caption>Mapping numeric literals to types</caption>
     <thead>
      <tr>
-      <th>Literal
+      <th>Numeric Literal
       <th>Suffix
       <th>Type
       <th>Examples 
@@ -2008,13 +2033,13 @@ some attribute parameters are also context-dependent names.</p>
     The second parameter, if provided, specifies the y dimension, otherwise is assumed to be 1.
     The third parameter, if provided, specifies the z dimension, otherwise is assumed to be 1.</p>
    </table>
-   <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="pipeline-stage-attributes">pipeline stage attributes</dfn> below
+   <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="shader-stage-attributes">shader stage attributes</dfn> below
 designate a function as an <a data-link-type="dfn" href="#entry-point" id="ref-for-entry-point③">entry point</a> for a particular <a data-link-type="dfn" href="#shader-stages" id="ref-for-shader-stages②">shader stage</a>.
 These attributes <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error④⑤">must</a> only be applied to <a data-link-type="dfn" href="#function-declaration" id="ref-for-function-declaration">function declarations</a>,
 and at most one may be present on a given function.
 They take no parameters.</p>
    <table class="data">
-    <caption>Pipeline Stage Attributes</caption>
+    <caption>Shader Stage Attributes</caption>
     <thead>
      <tr>
       <th>Attribute
@@ -3165,7 +3190,7 @@ as the last element of a structure, which itself cannot be part of an enclosing 
    </ul>
    <p>Attributes <a data-link-type="dfn" href="#attribute-builtin" id="ref-for-attribute-builtin①">builtin</a>, <a data-link-type="dfn" href="#attribute-location" id="ref-for-attribute-location②">location</a>, <a data-link-type="dfn" href="#attribute-interpolate" id="ref-for-attribute-interpolate①">interpolate</a>, and <a data-link-type="dfn" href="#attribute-invariant" id="ref-for-attribute-invariant①">invariant</a> are <a data-link-type="dfn" href="#io-attributes" id="ref-for-io-attributes">IO attributes</a>.
 An <a data-link-type="dfn" href="#io-attributes" id="ref-for-io-attributes①">IO attribute</a> on a member of a structure <em>S</em> has effect only when <em>S</em> is used as the type of a <a data-link-type="dfn" href="#formal-parameter" id="ref-for-formal-parameter②">formal parameter</a> or <a data-link-type="dfn" href="#return-type" id="ref-for-return-type①">return type</a> of an <a data-link-type="dfn" href="#entry-point" id="ref-for-entry-point⑦">entry point</a>.
-See <a href="#pipeline-inputs-outputs">§ 10.3.1 Pipeline Input and Output Interface</a>.</p>
+See <a href="#stage-inputs-outputs">§ 10.3.1 Inter-stage Input and Output Interface</a>.</p>
    <p>Attributes <a data-link-type="dfn" href="#attribute-align" id="ref-for-attribute-align①">align</a> and <a data-link-type="dfn" href="#attribute-size" id="ref-for-attribute-size①">size</a> are <a data-link-type="dfn" href="#layout-attributes" id="ref-for-layout-attributes">layout attributes</a>,
 and may be required if the structure type is used to
 define a <a data-link-type="dfn" href="#uniform-buffer" id="ref-for-uniform-buffer">uniform buffer</a> or a <a data-link-type="dfn" href="#storage-buffer" id="ref-for-storage-buffer①">storage buffer</a>.
@@ -5192,7 +5217,7 @@ converted</a> to the <a data-link-type="dfn" href="#effective-value-type" id="re
     <li data-md>
      <p>If an initializer is not specified, a value must be provided at <a data-link-type="dfn" href="#pipeline-creation" id="ref-for-pipeline-creation④">pipeline-creation time</a>.</p>
     <li data-md>
-     <p><a data-link-type="dfn" href="#override-declaration" id="ref-for-override-declaration②">Override-declarations</a> are part of the pipeline interface, but are not
+     <p><a data-link-type="dfn" href="#override-declaration" id="ref-for-override-declaration②">Override-declarations</a> are part of the shader interface, but are not
 bound resources.</p>
     <li data-md>
      <p><a data-link-type="dfn" href="#atomic-type" id="ref-for-atomic-type①①">Atomic types</a> can only appear in mutable storage buffers or workgroup
@@ -7232,7 +7257,7 @@ as part of a <a href="#type-constructor-expr">constructor expression</a>.</p>
      <dfn class="dfn-paneled" data-dfn-for="syntax" data-dfn-type="dfn" data-noexport id="syntax-primary_expression">primary_expression</dfn> : 
     <p>| <a data-link-type="dfn" href="#syntax-ident" id="ref-for-syntax-ident⑦">ident</a></p>
     <p>| <a data-link-type="dfn" href="#syntax-callable" id="ref-for-syntax-callable①">callable</a> <a data-link-type="dfn" href="#syntax-argument_expression_list" id="ref-for-syntax-argument_expression_list">argument_expression_list</a></p>
-    <p>| <a data-link-type="dfn" href="#syntax-const_literal" id="ref-for-syntax-const_literal">const_literal</a></p>
+    <p>| <a data-link-type="dfn" href="#syntax-literal" id="ref-for-syntax-literal">literal</a></p>
     <p>| <a data-link-type="dfn" href="#syntax-paren_expression" id="ref-for-syntax-paren_expression">paren_expression</a></p>
     <p>| <a data-link-type="dfn" href="#syntax-bitcast" id="ref-for-syntax-bitcast">bitcast</a> <a data-link-type="dfn" href="#syntax-less_than" id="ref-for-syntax-less_than⑨">less_than</a> <a data-link-type="dfn" href="#syntax-type_decl" id="ref-for-syntax-type_decl①⓪">type_decl</a> <a data-link-type="dfn" href="#syntax-greater_than" id="ref-for-syntax-greater_than⑨">greater_than</a> <a data-link-type="dfn" href="#syntax-paren_expression" id="ref-for-syntax-paren_expression①">paren_expression</a></p>
    </div>
@@ -8613,7 +8638,7 @@ functions.</p>
    <p>WGSL defines the following attributes that can be applied to function declarations:</p>
    <ul>
     <li data-md>
-     <p>the <a data-link-type="dfn" href="#pipeline-stage-attributes" id="ref-for-pipeline-stage-attributes">pipeline stage attributes</a>: <a data-link-type="dfn" href="#attribute-vertex" id="ref-for-attribute-vertex">vertex</a>, <a data-link-type="dfn" href="#attribute-fragment" id="ref-for-attribute-fragment">fragment</a>, and <a data-link-type="dfn" href="#attribute-compute" id="ref-for-attribute-compute">compute</a></p>
+     <p>the <a data-link-type="dfn" href="#shader-stage-attributes" id="ref-for-shader-stage-attributes">shader stage attributes</a>: <a data-link-type="dfn" href="#attribute-vertex" id="ref-for-attribute-vertex">vertex</a>, <a data-link-type="dfn" href="#attribute-fragment" id="ref-for-attribute-fragment">fragment</a>, and <a data-link-type="dfn" href="#attribute-compute" id="ref-for-attribute-compute">compute</a></p>
     <li data-md>
      <p><a data-link-type="dfn" href="#attribute-workgroup_size" id="ref-for-attribute-workgroup_size">workgroup_size</a></p>
    </ul>
@@ -8905,7 +8930,7 @@ See <a href="#var-decls">§ 6.3 var Declarations</a> and <a href="#resource-in
 the work for a particular <a data-link-type="dfn" href="#shader-stages" id="ref-for-shader-stages⑥">shader stage</a>.</p>
    <h3 class="heading settled" data-level="10.1" id="shader-stages-sec"><span class="secno">10.1. </span><span class="content">Shader Stages</span><a class="self-link" href="#shader-stages-sec"></a></h3>
    <p>WebGPU issues work to the GPU in the form of <a data-link-type="dfn" href="#draw-command" id="ref-for-draw-command②">draw</a> or <a data-link-type="dfn" href="#dispatch-command" id="ref-for-dispatch-command②">dispatch commands</a>.
-These commands execute a pipeline in the context of a set of <a data-link-type="dfn" href="#pipeline-input" id="ref-for-pipeline-input②">inputs</a>, <a data-link-type="dfn" href="#pipeline-output" id="ref-for-pipeline-output①">outputs</a>, and attached <a data-link-type="dfn" href="#resource" id="ref-for-resource⑦">resources</a>.</p>
+These commands execute a pipeline in the context of a set of shader stage <a data-link-type="dfn" href="#shader-stage-input" id="ref-for-shader-stage-input②">inputs</a>, <a data-link-type="dfn" href="#shader-stage-output" id="ref-for-shader-stage-output①">outputs</a>, and attached <a data-link-type="dfn" href="#resource" id="ref-for-resource⑦">resources</a>.</p>
    <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="pipeline">pipeline</dfn> describes the work to be performed on the GPU, as a sequence
 of stages, some of which are programmable.
 In WebGPU, a pipeline is created before scheduling a draw or dispatch command for execution.
@@ -8942,11 +8967,11 @@ programmable parts of pipelines:</p>
    </ul>
    <p>Each shader stage has its own set of features and constraints, described elsewhere.</p>
    <h3 class="heading settled" data-level="10.2" id="entry-point-decl"><span class="secno">10.2. </span><span class="content">Entry Point Declaration</span><a class="self-link" href="#entry-point-decl"></a></h3>
-   <p>To create an <a data-link-type="dfn" href="#entry-point" id="ref-for-entry-point①⓪">entry point</a>, declare a <a data-link-type="dfn" href="#user-defined-function" id="ref-for-user-defined-function⑨">user-defined function</a> with a <a data-link-type="dfn" href="#pipeline-stage-attributes" id="ref-for-pipeline-stage-attributes①">pipeline stage attribute</a>.</p>
+   <p>To create an <a data-link-type="dfn" href="#entry-point" id="ref-for-entry-point①⓪">entry point</a>, declare a <a data-link-type="dfn" href="#user-defined-function" id="ref-for-user-defined-function⑨">user-defined function</a> with a <a data-link-type="dfn" href="#shader-stage-attributes" id="ref-for-shader-stage-attributes①">shader stage attribute</a>.</p>
    <p>When configuring a <a data-link-type="dfn" href="#pipeline" id="ref-for-pipeline①">pipeline</a> in the WebGPU API,
 the entry point’s function name maps to the <code>entryPoint</code> attribute of the <a href="https://gpuweb.github.io/gpuweb/#GPUProgrammableStage">WebGPU § GPUProgrammableStage</a> object.</p>
-   <p>The entry point’s <a data-link-type="dfn" href="#formal-parameter" id="ref-for-formal-parameter①④">formal parameters</a> denote the stage’s <a data-link-type="dfn" href="#pipeline-input" id="ref-for-pipeline-input③">pipeline inputs</a>.
-The entry point’s <a data-link-type="dfn" href="#return-value" id="ref-for-return-value③">return value</a>, if specified, denotes the stage’s <a data-link-type="dfn" href="#pipeline-output" id="ref-for-pipeline-output②">pipeline outputs</a>.</p>
+   <p>The entry point’s <a data-link-type="dfn" href="#formal-parameter" id="ref-for-formal-parameter①④">formal parameters</a> denote the stage’s <a data-link-type="dfn" href="#shader-stage-input" id="ref-for-shader-stage-input③">shader stage inputs</a>.
+The entry point’s <a data-link-type="dfn" href="#return-value" id="ref-for-return-value③">return value</a>, if specified, denotes the stage’s <a data-link-type="dfn" href="#shader-stage-output" id="ref-for-shader-stage-output②">shader stage outputs</a>.</p>
    <p>The type of each formal parameter, and the entry point’s return type, <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error①⑦②">must</a> be one of:</p>
    <ul>
     <li data-md>
@@ -8994,7 +9019,7 @@ It will stabilize in a finite number of steps.</p>
    <p>WGSL defines the following attributes that can be applied to entry point declarations:</p>
    <ul>
     <li data-md>
-     <p>the <a data-link-type="dfn" href="#pipeline-stage-attributes" id="ref-for-pipeline-stage-attributes②">pipeline stage attributes</a>: <a data-link-type="dfn" href="#attribute-vertex" id="ref-for-attribute-vertex①">vertex</a>, <a data-link-type="dfn" href="#attribute-fragment" id="ref-for-attribute-fragment①">fragment</a>, and <a data-link-type="dfn" href="#attribute-compute" id="ref-for-attribute-compute①">compute</a></p>
+     <p>the <a data-link-type="dfn" href="#shader-stage-attributes" id="ref-for-shader-stage-attributes②">shader stage attributes</a>: <a data-link-type="dfn" href="#attribute-vertex" id="ref-for-attribute-vertex①">vertex</a>, <a data-link-type="dfn" href="#attribute-fragment" id="ref-for-attribute-fragment①">fragment</a>, and <a data-link-type="dfn" href="#attribute-compute" id="ref-for-attribute-compute①">compute</a></p>
     <li data-md>
      <p><a data-link-type="dfn" href="#attribute-workgroup_size" id="ref-for-attribute-workgroup_size①">workgroup_size</a></p>
    </ul>
@@ -9026,19 +9051,23 @@ either for reading or writing.
 The interface includes:</p>
    <ul>
     <li data-md>
-     <p><a data-link-type="dfn" href="#pipeline-input" id="ref-for-pipeline-input④">Pipeline inputs</a></p>
+     <p><a data-link-type="dfn" href="#shader-stage-input" id="ref-for-shader-stage-input④">Shader stage inputs</a></p>
     <li data-md>
-     <p><a data-link-type="dfn" href="#pipeline-output" id="ref-for-pipeline-output③">Pipeline outputs</a></p>
-    <li data-md>
-     <p><a data-link-type="dfn" href="#uniform-buffer" id="ref-for-uniform-buffer⑨">Uniform buffers</a></p>
-    <li data-md>
-     <p><a data-link-type="dfn" href="#storage-buffer" id="ref-for-storage-buffer①①">Storage buffers</a></p>
-    <li data-md>
-     <p><a data-link-type="dfn" href="#texture-resource" id="ref-for-texture-resource④">Texture resources</a></p>
-    <li data-md>
-     <p><a data-link-type="dfn" href="#sampler-resource" id="ref-for-sampler-resource③">Sampler resources</a></p>
+     <p><a data-link-type="dfn" href="#shader-stage-output" id="ref-for-shader-stage-output③">Shader stage outputs</a></p>
     <li data-md>
      <p><a data-link-type="dfn" href="#override-declaration" id="ref-for-override-declaration①①">Override-declarations</a></p>
+    <li data-md>
+     <p>Attached <a data-link-type="dfn" href="#resource" id="ref-for-resource⑧">resources</a>, which include:</p>
+     <ul>
+      <li data-md>
+       <p><a data-link-type="dfn" href="#uniform-buffer" id="ref-for-uniform-buffer⑨">Uniform buffers</a></p>
+      <li data-md>
+       <p><a data-link-type="dfn" href="#storage-buffer" id="ref-for-storage-buffer①①">Storage buffers</a></p>
+      <li data-md>
+       <p><a data-link-type="dfn" href="#texture-resource" id="ref-for-texture-resource④">Texture resources</a></p>
+      <li data-md>
+       <p><a data-link-type="dfn" href="#sampler-resource" id="ref-for-sampler-resource③">Sampler resources</a></p>
+     </ul>
    </ul>
    <p>When an <a data-link-type="dfn" href="#identifier" id="ref-for-identifier①⑦">identifier</a> in a <a data-link-type="dfn" href="#function-body" id="ref-for-function-body④">function body</a> <a data-link-type="dfn" href="#resolves" id="ref-for-resolves①⑤">resolves</a> to a <a data-link-type="dfn" href="#module-scope" id="ref-for-module-scope②④">module-scope</a> <a href="#var-and-value">variable or value declaration</a>,
 then we say that variable or value is <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="statically-accessed">statically accessed</dfn> by the function.
@@ -9049,21 +9078,21 @@ or even execute the statement that may enclose the expression.</p>
    <ul>
     <li data-md>
      <p>All <a data-link-type="dfn" href="#formal-parameter" id="ref-for-formal-parameter①⑤">formal parameters</a> of the <a data-link-type="dfn" href="#entry-point" id="ref-for-entry-point①①">entry point</a>.
- These denote the pipeline inputs.</p>
+ These denote the shader stage inputs.</p>
     <li data-md>
      <p>The <a data-link-type="dfn" href="#return-value" id="ref-for-return-value④">return value</a> of the entry point.
- This denotes the pipeline outputs.</p>
+ This denotes the shader stage outputs.</p>
     <li data-md>
      <p>All <a data-link-type="dfn" href="#override-declaration" id="ref-for-override-declaration①②">override-declarations</a>.</p>
     <li data-md>
      <p>All <a data-link-type="dfn" href="#uniform-buffer" id="ref-for-uniform-buffer①⓪">uniform buffer</a>, <a data-link-type="dfn" href="#storage-buffer" id="ref-for-storage-buffer①②">storage buffer</a>, <a data-link-type="dfn" href="#texture-resource" id="ref-for-texture-resource⑤">texture resource</a>, and <a data-link-type="dfn" href="#sampler-resource" id="ref-for-sampler-resource④">sampler resource</a> variables that are <a data-link-type="dfn" href="#statically-accessed" id="ref-for-statically-accessed③">statically accessed</a> by <a data-link-type="dfn" href="#functions-in-a-shader-stage" id="ref-for-functions-in-a-shader-stage②">functions in the shader stage</a>.</p>
    </ul>
-   <h4 class="heading settled" data-level="10.3.1" id="pipeline-inputs-outputs"><span class="secno">10.3.1. </span><span class="content">Pipeline Input and Output Interface</span><a class="self-link" href="#pipeline-inputs-outputs"></a></h4>
-   <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="pipeline-input">pipeline input</dfn> is a datum provided to the shader stage from upstream in the pipeline.
+   <h4 class="heading settled" data-level="10.3.1" id="stage-inputs-outputs"><span class="secno">10.3.1. </span><span class="content">Inter-stage Input and Output Interface</span><a class="self-link" href="#stage-inputs-outputs"></a></h4>
+   <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="shader-stage-input">shader stage input</dfn> is a datum provided to the shader stage from upstream in the pipeline.
 Each datum is either a <a data-link-type="dfn" href="#built-in-input-value" id="ref-for-built-in-input-value②">built-in input value</a>, or a <a data-link-type="dfn" href="#user-defined-input-datum" id="ref-for-user-defined-input-datum①">user-defined input</a>.</p>
-   <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="pipeline-output">pipeline output</dfn> is a datum the shader provides for further processing downstream in the pipeline.
+   <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="shader-stage-output">shader stage output</dfn> is a datum the shader provides for further processing downstream in the pipeline.
 Each datum is either a <a data-link-type="dfn" href="#built-in-output-value" id="ref-for-built-in-output-value③">built-in output value</a>, or a <a data-link-type="dfn" href="#user-defined-output-datum" id="ref-for-user-defined-output-datum①">user-defined output</a>.</p>
-   <p><a data-link-type="dfn" href="#io-attributes" id="ref-for-io-attributes②">IO attributes</a> are used to establish an object as a <a data-link-type="dfn" href="#pipeline-input" id="ref-for-pipeline-input⑤">pipeline input</a> or a <a data-link-type="dfn" href="#pipeline-output" id="ref-for-pipeline-output④">pipeline output</a>,
+   <p><a data-link-type="dfn" href="#io-attributes" id="ref-for-io-attributes②">IO attributes</a> are used to establish an object as a <a data-link-type="dfn" href="#shader-stage-input" id="ref-for-shader-stage-input⑤">shader stage input</a> or a <a data-link-type="dfn" href="#shader-stage-output" id="ref-for-shader-stage-output④">shader stage output</a>,
 or to further describe the properties of an input or output.
 The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="io-attributes">IO attributes</dfn> are:</p>
    <ul>
@@ -9087,7 +9116,7 @@ An entry point <a data-link-type="dfn" href="#shader-creation-error" id="ref-for
     <li data-md>
      <p>The parameter has structure type, where one of the structure members has attribute <code>builtin(</code><em>X</em><code>)</code> and is of type <em>T</em><sub><em>X</em></sub>.</p>
    </ol>
-   <p>Conversely, when a parameter or member of a parameter for an entry point has a <code>builtin</code> attribute,
+   <p>Conversely, when a parameter or member of a parameter for an entry point has a <a data-link-type="dfn" href="#attribute-builtin" id="ref-for-attribute-builtin④">builtin</a> attribute,
 the corresponding builtin <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error①⑦④">must</a> be an input for the entry point’s shader stage.</p>
    <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="built-in-output-value">built-in output value</dfn> is used by the shader to convey
 control information to later processing steps in the pipeline.
@@ -9100,7 +9129,7 @@ An entry point <a data-link-type="dfn" href="#shader-creation-error" id="ref-for
     <li data-md>
      <p>The entry point <a data-link-type="dfn" href="#return-type" id="ref-for-return-type⑨">return type</a> has structure type, where one of the structure members has attribute <code>builtin(</code><em>Y</em><code>)</code> and is of type <em>T</em><sub><em>Y</em></sub>.</p>
    </ol>
-   <p>Conversely, when the return type or member of a return type for an entry point has a <code>builtin</code> attribute,
+   <p>Conversely, when the return type or member of a return type for an entry point has a <a data-link-type="dfn" href="#attribute-builtin" id="ref-for-attribute-builtin⑤">builtin</a> attribute,
 the corresponding builtin <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error①⑦⑥">must</a> be an output for the entry point’s shader stage.</p>
    <p class="note" role="note"><span>Note:</span> The <a data-link-type="dfn" href="#built-in-values-position" id="ref-for-built-in-values-position③">position</a> built-in is both an output of a vertex shader, and an input to the fragement shader.</p>
    <p>Collectively, built-in input and built-in output values are known as <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="built-in-values">built-in values</dfn>.</p>
@@ -9127,13 +9156,13 @@ Each structure member in the entry point IO <a data-link-type="dfn" href="#shade
    <ul>
     <li data-md>
      <p>Members within a structure type.
-This applies to any structure, not just those used in pipeline inputs or outputs.</p>
+This applies to any structure, not just those used in shader stage inputs or outputs.</p>
     <li data-md>
-     <p>An entry point’s pipeline inputs,
+     <p>An entry point’s shader stage inputs,
 i.e. locations for its formal parameters, or for the members of its formal parameters of structure type.</p>
    </ul>
    <p class="note" role="note"><span>Note:</span> Location numbering is distinct between inputs and outputs:
-Location numbers for an entry point’s pipeline inputs do not conflict with location numbers for the entry point’s pipeline outputs.</p>
+Location numbers for an entry point’s shader stage inputs do not conflict with location numbers for the entry point’s shader stage outputs.</p>
    <p class="note" role="note"><span>Note:</span> No additional rule is required to prevent location overlap within an entry point’s outputs.
 When the output is a structure, the first rule above prevents overlap.
 Otherwise, the output is a scalar or a vector, and can have only a single location assigned to it.</p>
@@ -9271,7 +9300,7 @@ integer type <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-s
    <p>Interpolation attributes <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error①⑧⑥">must</a> match between <a data-link-type="dfn" href="#vertex" id="ref-for-vertex③">vertex</a> outputs and <a data-link-type="dfn" href="#fragment" id="ref-for-fragment⑤">fragment</a> inputs with the same <a data-link-type="dfn" href="#attribute-location" id="ref-for-attribute-location⑥">location</a> assignment within the same <a data-link-type="dfn" href="#pipeline" id="ref-for-pipeline②">pipeline</a>.</p>
    <h4 class="heading settled" data-level="10.3.2" id="resource-interface"><span class="secno">10.3.2. </span><span class="content">Resource Interface</span><a class="self-link" href="#resource-interface"></a></h4>
    <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="resource">resource</dfn> is an object which provides access to data external to a <a data-link-type="dfn" href="#shader-stages" id="ref-for-shader-stages①⓪">shader stage</a>,
-and which is not an <a data-link-type="dfn" href="#override-declaration" id="ref-for-override-declaration①③">override-declaration</a> and not a <a href="#pipeline-inputs-outputs">pipeline input or output</a>.
+and which is not an <a data-link-type="dfn" href="#override-declaration" id="ref-for-override-declaration①③">override-declaration</a> and not a <a href="#stage-inputs-outputs">shader stage input or output</a>.
 Resources are shared by all invocations of the shader.</p>
    <p>There are four kinds of resources:</p>
    <ul>
@@ -10330,7 +10359,7 @@ function-scope variable.
 The <code>workgroupBarrier</code> is invalid because the value of <code>x</code> is derived from the
 mutable module-scope variable <code>a</code>.
 The <code>storageBarrier</code> is valid because the value of <code>x</code> is derived from the
-immutable module-scope variable <code>b</code>. 
+immutable module-scope variable <code>b</code>.
 This example highlights the <a href="#func-var-value-analysis">value analysis'</a> ability to separate different periods of uniformity in a function-scope
 variable’s lifetime.
 This example also clearly shows that control flow becomes uniform again after
@@ -10635,11 +10664,17 @@ the following exceptions:</p>
      <p>Signaling NaNs may not be generated.
 Any signaling NaN may be converted to a quiet NaN.</p>
     <li data-md>
-     <p>Implementations may assume that NaNs and infinities are not present.</p>
+     <p>Implementations may assume that NaNs and infinities are not present at runtime.</p>
      <ul>
       <li data-md>
        <p>In such an implementation, when an evaluation would produce an infinity or a NaN,
 an undefined value of the target type is produced instead.</p>
+      <li data-md>
+       <p>It is a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪⓪">shader-creation error</a> if any <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions④③">const-expression</a> of
+floating-point type evaluates to NaN or infinity.</p>
+      <li data-md>
+       <p>It is a <a data-link-type="dfn" href="#pipeline-creation-error" id="ref-for-pipeline-creation-error②①">pipeline-creation error</a> if any <a data-link-type="dfn" href="#override-expressions" id="ref-for-override-expressions③⓪">override-expression</a> of
+floating-point type evaluates to NaN or infinity.</p>
       <li data-md>
        <p class="note" role="note"><span>Note:</span> This means some functions (e.g. <code>min</code> and <code>max</code>)
 may not return the expected result due to optimizations about the presence
@@ -10780,8 +10815,7 @@ value with the same sign.</p>
       <td>5 ULP 
      <tr>
       <td><code>atan2(y, x)</code>
-      <td>4096 ULP
-      <td>5 ULP 
+      <td colspan="2" style="text-align:left;">Inherited from <code>atan(y / x)</code> 
      <tr>
       <td><code>atanh(x)</code>
       <td colspan="2" style="text-align:left;">Inherited from <code>log( (1.0 + x) / (1.0 - x) ) * 0.5</code> 
@@ -10980,7 +11014,7 @@ Therefore the maximum u32 value resulting from a floating point conversion is 42
        <p>Otherwise, the original value lies outside the finite range of the destination type:</p>
        <ul>
         <li data-md>
-         <p>A <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪⓪">shader-creation error</a> results if the original value is of <a data-link-type="dfn" href="#abstract-numeric-types" id="ref-for-abstract-numeric-types⑥">abstract numeric type</a>.</p>
+         <p>A <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪①">shader-creation error</a> results if the original value is of <a data-link-type="dfn" href="#abstract-numeric-types" id="ref-for-abstract-numeric-types⑥">abstract numeric type</a>.</p>
         <li data-md>
          <p>Otherwise the conversion proceeds as follows:</p>
          <ol>
@@ -11399,7 +11433,7 @@ with <code>NonPrivatePointer | MakePointerAvailable</code> memory operands with 
    </div>
    <h3 class="heading settled" data-level="15.2" id="reserved-words"><span class="secno">15.2. </span><span class="content">Reserved Words</span><a class="self-link" href="#reserved-words"></a></h3>
    <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="reserved-word">reserved word</dfn> is a <a data-link-type="dfn" href="#token" id="ref-for-token⑨">token</a> which is reserved for future use.
-A WGSL program <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪①">must not</a> contain a reserved word.</p>
+A WGSL program <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪②">must not</a> contain a reserved word.</p>
    <p>The following are reserved words:</p>
    <div class="syntax">
      <dfn data-dfn-for="syntax" data-dfn-type="dfn" data-noexport id="syntax-_reserved">_reserved<a class="self-link" href="#syntax-_reserved"></a></dfn> : 
@@ -12045,7 +12079,7 @@ Each of these distinct function variations is an <a data-link-type="dfn" href="#
     <li data-md>
      <p>The behavior of this overload of the function.</p>
    </ul>
-   <p>Since a built-in function is always in scope, it is a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪②">shader-creation error</a> to attempt to redefine one or to use the name of a built-in function as an <a data-link-type="dfn" href="#identifier" id="ref-for-identifier①⑨">identifier</a> for any other <a data-link-type="dfn" href="#module-scope" id="ref-for-module-scope②⑦">module-scope</a> declaration.</p>
+   <p>Since a built-in function is always in scope, it is a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪③">shader-creation error</a> to attempt to redefine one or to use the name of a built-in function as an <a data-link-type="dfn" href="#identifier" id="ref-for-identifier①⑨">identifier</a> for any other <a data-link-type="dfn" href="#module-scope" id="ref-for-module-scope②⑦">module-scope</a> declaration.</p>
    <p>When calling a built-in function, all arguments to the function are evaluated
 before function evaluation begins.
 See <a href="#function-calls">§ 9.2 Function Calls</a>.</p>
@@ -12180,6 +12214,10 @@ See <a href="#function-calls">§ 9.2 Function Calls</a>.</p>
       <td>
        Returns the principal value, in radians, of the inverse cosine (cos<sup>-1</sup>) of <code>e</code>.<br> That is, approximates <code>x</code> with 0 ≤ <code>x</code> ≤ π, such that <code>cos</code>(<code>x</code>) = <code>e</code>. 
        <p><a data-link-type="dfn" href="#component-wise" id="ref-for-component-wise④⑨">Component-wise</a> when <code>T</code> is a vector.</p>
+     <tr>
+      <td>
+      <td>
+       <p class="note" role="note"><span>Note:</span> The result is not mathematically meaningful when <code>abs(e)</code> > 1.</p>
    </table>
    <h4 class="heading settled" data-level="17.3.3" id="acosh-builtin"><span class="secno">17.3.3. </span><span class="content"><code>acosh</code></span><a class="self-link" href="#acosh-builtin"></a></h4>
    <table class="data builtin">
@@ -12220,6 +12258,10 @@ See <a href="#function-calls">§ 9.2 Function Calls</a>.</p>
       <td>
        Returns the principal value, in radians, of the inverse sine (sin<sup>-1</sup>) of <code>e</code>.<br> That is, approximates <code>x</code> with -π/2 ≤ <code>x</code> ≤ π/2, such that <code>sin</code>(<code>x</code>) = <code>e</code>. 
        <p><a data-link-type="dfn" href="#component-wise" id="ref-for-component-wise⑤①">Component-wise</a> when <code>T</code> is a vector.</p>
+     <tr>
+      <td>
+      <td>
+       <p class="note" role="note"><span>Note:</span> The result is not mathematically meaningful when <code>abs(e)</code> > 1.</p>
    </table>
    <h4 class="heading settled" data-level="17.3.5" id="asinh-builtin"><span class="secno">17.3.5. </span><span class="content"><code>asinh</code></span><a class="self-link" href="#asinh-builtin"></a></h4>
    <table class="data builtin">
@@ -12331,9 +12373,9 @@ See <a href="#function-calls">§ 9.2 Function Calls</a>.</p>
        <p>If <code>low</code> is greater than <code>high</code>, then:</p>
        <ul>
         <li data-md>
-         <p>It is a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪③">shader-creation error</a> if <code>low</code> and <code>high</code> are <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions④③">const-expressions</a>.</p>
+         <p>It is a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪④">shader-creation error</a> if <code>low</code> and <code>high</code> are <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions④④">const-expressions</a>.</p>
         <li data-md>
-         <p>It is a <a data-link-type="dfn" href="#pipeline-creation-error" id="ref-for-pipeline-creation-error②①">pipeline-creation error</a> if <code>low</code> and <code>high</code> are <a data-link-type="dfn" href="#override-expressions" id="ref-for-override-expressions③⓪">override-expressions</a>.</p>
+         <p>It is a <a data-link-type="dfn" href="#pipeline-creation-error" id="ref-for-pipeline-creation-error②②">pipeline-creation error</a> if <code>low</code> and <code>high</code> are <a data-link-type="dfn" href="#override-expressions" id="ref-for-override-expressions③①">override-expressions</a>.</p>
        </ul>
    </table>
    <h4 class="heading settled" data-level="17.3.11" id="cos-builtin"><span class="secno">17.3.11. </span><span class="content"><code>cos</code></span><a class="self-link" href="#cos-builtin"></a></h4>
@@ -12555,9 +12597,9 @@ See <a href="#function-calls">§ 9.2 Function Calls</a>.</p>
        <p>If <code>count</code> + <code>offset</code> is greater than <code>w</code>, then:</p>
        <ul>
         <li data-md>
-         <p>It is a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪④">shader-creation error</a> if <code>count</code> and <code>offset</code> are <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions④④">const-expressions</a>.</p>
+         <p>It is a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪⑤">shader-creation error</a> if <code>count</code> and <code>offset</code> are <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions④⑤">const-expressions</a>.</p>
         <li data-md>
-         <p>It is a <a data-link-type="dfn" href="#pipeline-creation-error" id="ref-for-pipeline-creation-error②②">pipeline-creation error</a> if <code>count</code> and <code>offset</code> are <a data-link-type="dfn" href="#override-expressions" id="ref-for-override-expressions③①">override-expressions</a>.</p>
+         <p>It is a <a data-link-type="dfn" href="#pipeline-creation-error" id="ref-for-pipeline-creation-error②③">pipeline-creation error</a> if <code>count</code> and <code>offset</code> are <a data-link-type="dfn" href="#override-expressions" id="ref-for-override-expressions③②">override-expressions</a>.</p>
        </ul>
    </table>
    <h4 class="heading settled" data-level="17.3.24" id="extractBits-unsigned-builtin"><span class="secno">17.3.24. </span><span class="content"><code>extractBits</code> (unsigned)</span><a class="self-link" href="#extractBits-unsigned-builtin"></a></h4>
@@ -12590,9 +12632,9 @@ See <a href="#function-calls">§ 9.2 Function Calls</a>.</p>
        <p>If <code>count</code> + <code>offset</code> is greater than <code>w</code>, then:</p>
        <ul>
         <li data-md>
-         <p>It is a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪⑤">shader-creation error</a> if <code>count</code> and <code>offset</code> are <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions④⑤">const-expressions</a>.</p>
+         <p>It is a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪⑥">shader-creation error</a> if <code>count</code> and <code>offset</code> are <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions④⑥">const-expressions</a>.</p>
         <li data-md>
-         <p>It is a <a data-link-type="dfn" href="#pipeline-creation-error" id="ref-for-pipeline-creation-error②③">pipeline-creation error</a> if <code>count</code> and <code>offset</code> are <a data-link-type="dfn" href="#override-expressions" id="ref-for-override-expressions③②">override-expressions</a>.</p>
+         <p>It is a <a data-link-type="dfn" href="#pipeline-creation-error" id="ref-for-pipeline-creation-error②④">pipeline-creation error</a> if <code>count</code> and <code>offset</code> are <a data-link-type="dfn" href="#override-expressions" id="ref-for-override-expressions③③">override-expressions</a>.</p>
        </ul>
    </table>
    <h4 class="heading settled" data-level="17.3.25" id="faceForward-builtin"><span class="secno">17.3.25. </span><span class="content"><code>faceForward</code></span><a class="self-link" href="#faceForward-builtin"></a></h4>
@@ -12899,6 +12941,10 @@ but a value may infer the type.</p>
      <tr>
       <td>Description 
       <td>Returns the reciprocal of <code>sqrt(e)</code>. <a data-link-type="dfn" href="#component-wise" id="ref-for-component-wise⑦⑤">Component-wise</a> when <code>T</code> is a vector. 
+     <tr>
+      <td>
+      <td>
+       <p class="note" role="note"><span>Note:</span> The result is not mathematically meaningful if <code>e</code> ≤ 0.</p>
    </table>
    <h4 class="heading settled" data-level="17.3.35" id="ldexp-builtin"><span class="secno">17.3.35. </span><span class="content"><code>ldexp</code></span><a class="self-link" href="#ldexp-builtin"></a></h4>
    <table class="data builtin">
@@ -12933,6 +12979,10 @@ but a value may infer the type.</p>
        Returns the length of <code>e</code>.<br> Evaluates to the absolute value of <code>e</code> if <code>T</code> is <a data-link-type="dfn" href="#scalar" id="ref-for-scalar①⑧">scalar</a>.<br> Evaluates to <code>sqrt(e[0]</code><sup><code>2</code></sup> <code>+ e[1]</code><sup><code>2</code></sup> <code>+ ...)</code> if <code>T</code> is a vector type. 
        <p class="note" role="note"><span>Note:</span> The scalar case may be evaluated as <code>sqrt(e * e)</code>,
         which may unnecessarily overflow or lose accuracy.</p>
+     <tr>
+      <td>
+      <td>
+       <p class="note" role="note"><span>Note:</span> The result is not mathematically meaningful if <code>e</code> ≤ -0.</p>
    </table>
    <h4 class="heading settled" data-level="17.3.37" id="log-builtin"><span class="secno">17.3.37. </span><span class="content"><code>log</code></span><a class="self-link" href="#log-builtin"></a></h4>
    <table class="data builtin">
@@ -12948,6 +12998,10 @@ but a value may infer the type.</p>
      <tr>
       <td>Description 
       <td>Returns the natural logarithm of <code>e</code>. <a data-link-type="dfn" href="#component-wise" id="ref-for-component-wise⑦⑦">Component-wise</a> when <code>T</code> is a vector. 
+     <tr>
+      <td>
+      <td>
+       <p class="note" role="note"><span>Note:</span> The result is not mathematically meaningful if <code>e</code> &lt; 0.</p>
    </table>
    <h4 class="heading settled" data-level="17.3.38" id="log2-builtin"><span class="secno">17.3.38. </span><span class="content"><code>log2</code></span><a class="self-link" href="#log2-builtin"></a></h4>
    <table class="data builtin">
@@ -12963,6 +13017,10 @@ but a value may infer the type.</p>
      <tr>
       <td>Description 
       <td>Returns the base-2 logarithm of <code>e</code>. <a data-link-type="dfn" href="#component-wise" id="ref-for-component-wise⑦⑧">Component-wise</a> when <code>T</code> is a vector. 
+     <tr>
+      <td>
+      <td>
+       <p class="note" role="note"><span>Note:</span> The result is not mathematically meaningful if <code>e</code> &lt; 0.</p>
    </table>
    <h4 class="heading settled" data-level="17.3.39" id="max-float-builtin"><span class="secno">17.3.39. </span><span class="content"><code>max</code></span><a class="self-link" href="#max-float-builtin"></a></h4>
    <table class="data builtin">
@@ -13498,9 +13556,9 @@ but a value may infer the type.</p>
    <p>These functions:</p>
    <ul>
     <li data-md>
-     <p><a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪⑥">Must</a> only be used in a <a data-link-type="dfn" href="#fragment" id="ref-for-fragment⑥">fragment</a> shader stage.</p>
+     <p><a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪⑦">Must</a> only be used in a <a data-link-type="dfn" href="#fragment" id="ref-for-fragment⑥">fragment</a> shader stage.</p>
     <li data-md>
-     <p><a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪⑦">Must</a> only be invoked in <a data-link-type="dfn" href="#uniform-control-flow" id="ref-for-uniform-control-flow①⓪">uniform control flow</a>.</p>
+     <p><a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪⑧">Must</a> only be invoked in <a data-link-type="dfn" href="#uniform-control-flow" id="ref-for-uniform-control-flow①⓪">uniform control flow</a>.</p>
    </ul>
    <h4 class="heading settled" data-level="17.4.1" id="dpdx-builtin"><span class="secno">17.4.1. </span><span class="content"><code>dpdx</code></span><a class="self-link" href="#dpdx-builtin"></a></h4>
    <table class="data builtin">
@@ -13642,7 +13700,7 @@ but a value may infer the type.</p>
       <td>Returns <code>abs(dpdxFine(e)) + abs(dpdyFine(e))</code>. 
    </table>
    <h3 class="heading settled" data-level="17.5" id="texture-builtin-functions"><span class="secno">17.5. </span><span class="content">Texture Built-in Functions</span><a class="self-link" href="#texture-builtin-functions"></a></h3>
-   <p>Parameter values <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪⑧">must</a> be valid for the respective texture types.</p>
+   <p>Parameter values <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪⑨">must</a> be valid for the respective texture types.</p>
    <h4 class="heading settled" data-level="17.5.1" id="texturedimensions"><span class="secno">17.5.1. </span><span class="content"><code>textureDimensions</code></span><a class="self-link" href="#texturedimensions"></a></h4>
    <p>Returns the dimensions of a texture, or texture’s mip level in texels.</p>
    <table class="data">
@@ -13885,8 +13943,8 @@ https://github.com/gpuweb/gpuweb/issues/2343</p>
     <tbody>
      <tr>
       <td><code>component</code>
-      <td> Only applies to non-depth textures. <br>The index of the channel to read from the selected texels. <br>When provided, the <code>component</code> expression <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②⓪⑨">must</a> be a <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions④⑥">const-expression</a> (e.g. <code>1</code>).<br> Its value must be at least 0 and at most 3.
-  Values outside of this range will result in a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①⓪">shader-creation error</a>. 
+      <td> Only applies to non-depth textures. <br>The index of the channel to read from the selected texels. <br>When provided, the <code>component</code> expression <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①⓪">must</a> be a <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions④⑦">const-expression</a> (e.g. <code>1</code>).<br> Its value must be at least 0 and at most 3.
+  Values outside of this range will result in a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①①">shader-creation error</a>. 
      <tr>
       <td><code>t</code>
       <td> The <a href="#sampled-texture-type">sampled</a> or <a href="#texture-depth">depth</a> texture to read from. 
@@ -13903,8 +13961,8 @@ https://github.com/gpuweb/gpuweb/issues/2343</p>
       <td><code>offset</code>
       <td> The optional texel offset applied to the unnormalized texture coordinate
   before sampling the texture. This offset is applied before applying any
-  texture wrapping modes.<br> The <code>offset</code> expression <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①①">must</a> be a <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions④⑦">const-expression</a> (e.g. <code>vec2&lt;i32>(1, 2)</code>).<br> Each <code>offset</code> component <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①②">must</a> be at least <code>-8</code> and at most <code>7</code>. Values outside
-  of this range will result in a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①③">shader-creation error</a>. 
+  texture wrapping modes.<br> The <code>offset</code> expression <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①②">must</a> be a <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions④⑧">const-expression</a> (e.g. <code>vec2&lt;i32>(1, 2)</code>).<br> Each <code>offset</code> component <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①③">must</a> be at least <code>-8</code> and at most <code>7</code>. Values outside
+  of this range will result in a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①④">shader-creation error</a>. 
    </table>
    <p><strong>Returns:</strong></p>
    <p>A four component vector with components extracted from the specified channel from the selected texels, as described above.</p>
@@ -14056,8 +14114,8 @@ yielding a 0.0 or 1.0 value, as controlled by the comparison sampler parameters.
       <td><code>offset</code>
       <td> The optional texel offset applied to the unnormalized texture coordinate
   before sampling the texture. This offset is applied before applying any
-  texture wrapping modes.<br> The <code>offset</code> expression <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①④">must</a> be a <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions④⑧">const-expression</a> (e.g. <code>vec2&lt;i32>(1, 2)</code>).<br> Each <code>offset</code> component <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①⑤">must</a> be at least <code>-8</code> and at most <code>7</code>. Values outside
-  of this range will result in a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①⑥">shader-creation error</a>. 
+  texture wrapping modes.<br> The <code>offset</code> expression <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①⑤">must</a> be a <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions④⑨">const-expression</a> (e.g. <code>vec2&lt;i32>(1, 2)</code>).<br> Each <code>offset</code> component <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①⑥">must</a> be at least <code>-8</code> and at most <code>7</code>. Values outside
+  of this range will result in a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①⑦">shader-creation error</a>. 
    </table>
    <p><strong>Returns:</strong></p>
    <p>A four component vector with comparison result for the selected texels, as described above.</p>
@@ -14259,7 +14317,7 @@ yielding a 0.0 or 1.0 value, as controlled by the comparison sampler parameters.
    <p>The number of samples per texel in the multisampled texture.</p>
    <h4 class="heading settled" data-level="17.5.8" id="texturesample"><span class="secno">17.5.8. </span><span class="content"><code>textureSample</code></span><a class="self-link" href="#texturesample"></a></h4>
    <p>Samples a texture.</p>
-   <p><a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①⑦">Must</a> only be used in a <a data-link-type="dfn" href="#fragment" id="ref-for-fragment⑦">fragment</a> shader stage. <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①⑧">Must</a> only be invoked in <a data-link-type="dfn" href="#uniform-control-flow" id="ref-for-uniform-control-flow①①">uniform control flow</a>.</p>
+   <p><a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①⑧">Must</a> only be used in a <a data-link-type="dfn" href="#fragment" id="ref-for-fragment⑦">fragment</a> shader stage. <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①⑨">Must</a> only be invoked in <a data-link-type="dfn" href="#uniform-control-flow" id="ref-for-uniform-control-flow①①">uniform control flow</a>.</p>
    <table class="data">
     <thead>
      <tr>
@@ -14396,14 +14454,14 @@ yielding a 0.0 or 1.0 value, as controlled by the comparison sampler parameters.
       <td><code>offset</code>
       <td> The optional texel offset applied to the unnormalized texture coordinate
   before sampling the texture. This offset is applied before applying any
-  texture wrapping modes.<br> The <code>offset</code> expression <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②①⑨">must</a> be a <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions④⑨">const-expression</a> (e.g. <code>vec2&lt;i32>(1, 2)</code>).<br> Each <code>offset</code> component <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②⓪">must</a> be at least <code>-8</code> and at most <code>7</code>. Values outside
-  of this range will result in a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②①">shader-creation error</a>. 
+  texture wrapping modes.<br> The <code>offset</code> expression <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②⓪">must</a> be a <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions⑤⓪">const-expression</a> (e.g. <code>vec2&lt;i32>(1, 2)</code>).<br> Each <code>offset</code> component <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②①">must</a> be at least <code>-8</code> and at most <code>7</code>. Values outside
+  of this range will result in a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②②">shader-creation error</a>. 
    </table>
    <p><strong>Returns:</strong></p>
    <p>The sampled value.</p>
    <h4 class="heading settled" data-level="17.5.9" id="texturesamplebias"><span class="secno">17.5.9. </span><span class="content"><code>textureSampleBias</code></span><a class="self-link" href="#texturesamplebias"></a></h4>
    <p>Samples a texture with a bias to the mip level.</p>
-   <p><a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②②">Must</a> only be used in a <a data-link-type="dfn" href="#fragment" id="ref-for-fragment⑧">fragment</a> shader stage. <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②③">Must</a> only be invoked in <a data-link-type="dfn" href="#uniform-control-flow" id="ref-for-uniform-control-flow①②">uniform control flow</a>.</p>
+   <p><a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②③">Must</a> only be used in a <a data-link-type="dfn" href="#fragment" id="ref-for-fragment⑧">fragment</a> shader stage. <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②④">Must</a> only be invoked in <a data-link-type="dfn" href="#uniform-control-flow" id="ref-for-uniform-control-flow①②">uniform control flow</a>.</p>
    <table class="data">
     <thead>
      <tr>
@@ -14490,19 +14548,19 @@ yielding a 0.0 or 1.0 value, as controlled by the comparison sampler parameters.
       <td> The 0-based texture array index to sample. 
      <tr>
       <td><code>bias</code>
-      <td> The bias to apply to the mip level before sampling. <code>bias</code> <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②④">must</a> be between <code>-16.0</code> and <code>15.99</code>. 
+      <td> The bias to apply to the mip level before sampling. <code>bias</code> <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②⑤">must</a> be between <code>-16.0</code> and <code>15.99</code>. 
      <tr>
       <td><code>offset</code>
       <td> The optional texel offset applied to the unnormalized texture coordinate
   before sampling the texture. This offset is applied before applying any
-  texture wrapping modes.<br> The <code>offset</code> expression <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②⑤">must</a> be a <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions⑤⓪">const-expression</a> (e.g. <code>vec2&lt;i32>(1, 2)</code>).<br> Each <code>offset</code> component <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②⑥">must</a> be at least <code>-8</code> and at most <code>7</code>. Values outside
-  of this range will result in a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②⑦">shader-creation error</a>. 
+  texture wrapping modes.<br> The <code>offset</code> expression <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②⑥">must</a> be a <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions⑤①">const-expression</a> (e.g. <code>vec2&lt;i32>(1, 2)</code>).<br> Each <code>offset</code> component <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②⑦">must</a> be at least <code>-8</code> and at most <code>7</code>. Values outside
+  of this range will result in a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②⑧">shader-creation error</a>. 
    </table>
    <p><strong>Returns:</strong></p>
    <p>The sampled value.</p>
    <h4 class="heading settled" data-level="17.5.10" id="texturesamplecompare"><span class="secno">17.5.10. </span><span class="content"><code>textureSampleCompare</code></span><a class="self-link" href="#texturesamplecompare"></a></h4>
    <p>Samples a depth texture and compares the sampled depth values against a reference value.</p>
-   <p><a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②⑧">Must</a> only be used in a <a data-link-type="dfn" href="#fragment" id="ref-for-fragment⑨">fragment</a> shader stage. <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②⑨">Must</a> only be invoked in <a data-link-type="dfn" href="#uniform-control-flow" id="ref-for-uniform-control-flow①③">uniform control flow</a>.</p>
+   <p><a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②②⑨">Must</a> only be used in a <a data-link-type="dfn" href="#fragment" id="ref-for-fragment⑨">fragment</a> shader stage. <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③⓪">Must</a> only be invoked in <a data-link-type="dfn" href="#uniform-control-flow" id="ref-for-uniform-control-flow①③">uniform control flow</a>.</p>
    <table class="data">
     <thead>
      <tr>
@@ -14585,8 +14643,8 @@ yielding a 0.0 or 1.0 value, as controlled by the comparison sampler parameters.
       <td><code>offset</code>
       <td> The optional texel offset applied to the unnormalized texture coordinate
   before sampling the texture. This offset is applied before applying any
-  texture wrapping modes.<br> The <code>offset</code> expression <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③⓪">must</a> be a <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions⑤①">const-expression</a> (e.g. <code>vec2&lt;i32>(1, 2)</code>).<br> Each <code>offset</code> component <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③①">must</a> be at least <code>-8</code> and at most <code>7</code>. Values outside
-  of this range will result in a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③②">shader-creation error</a>. 
+  texture wrapping modes.<br> The <code>offset</code> expression <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③①">must</a> be a <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions⑤②">const-expression</a> (e.g. <code>vec2&lt;i32>(1, 2)</code>).<br> Each <code>offset</code> component <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③②">must</a> be at least <code>-8</code> and at most <code>7</code>. Values outside
+  of this range will result in a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③③">shader-creation error</a>. 
    </table>
    <p><strong>Returns:</strong></p>
    <p>A value in the range <code>[0.0..1.0]</code>.</p>
@@ -14679,8 +14737,8 @@ single texel is returned.</p>
       <td><code>offset</code>
       <td> The optional texel offset applied to the unnormalized texture coordinate
   before sampling the texture. This offset is applied before applying any
-  texture wrapping modes.<br> The <code>offset</code> expression <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③③">must</a> be a <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions⑤②">const-expression</a> (e.g. <code>vec2&lt;i32>(1, 2)</code>).<br> Each <code>offset</code> component <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③④">must</a> be at least <code>-8</code> and at most <code>7</code>. Values outside
-  of this range will result in a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③⑤">shader-creation error</a>. 
+  texture wrapping modes.<br> The <code>offset</code> expression <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③④">must</a> be a <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions⑤③">const-expression</a> (e.g. <code>vec2&lt;i32>(1, 2)</code>).<br> Each <code>offset</code> component <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③⑤">must</a> be at least <code>-8</code> and at most <code>7</code>. Values outside
+  of this range will result in a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③⑥">shader-creation error</a>. 
    </table>
    <p><strong>Returns:</strong></p>
    <p>A value in the range <code>[0.0..1.0]</code>.</p>
@@ -14800,8 +14858,8 @@ single texel is returned.</p>
       <td><code>offset</code>
       <td> The optional texel offset applied to the unnormalized texture coordinate
   before sampling the texture. This offset is applied before applying any
-  texture wrapping modes.<br> The <code>offset</code> expression <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③⑥">must</a> be a <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions⑤③">const-expression</a> (e.g. <code>vec2&lt;i32>(1, 2)</code>).<br> Each <code>offset</code> component <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③⑦">must</a> be at least <code>-8</code> and at most <code>7</code>. Values outside
-  of this range will result in a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③⑧">shader-creation error</a>. 
+  texture wrapping modes.<br> The <code>offset</code> expression <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③⑦">must</a> be a <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions⑤④">const-expression</a> (e.g. <code>vec2&lt;i32>(1, 2)</code>).<br> Each <code>offset</code> component <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③⑧">must</a> be at least <code>-8</code> and at most <code>7</code>. Values outside
+  of this range will result in a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③⑨">shader-creation error</a>. 
    </table>
    <p><strong>Returns:</strong></p>
    <p>The sampled value.</p>
@@ -14961,8 +15019,8 @@ single texel is returned.</p>
       <td><code>offset</code>
       <td> The optional texel offset applied to the unnormalized texture coordinate
   before sampling the texture. This offset is applied before applying any
-  texture wrapping modes.<br> The <code>offset</code> expression <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②③⑨">must</a> be a <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions⑤④">const-expression</a> (e.g. <code>vec2&lt;i32>(1, 2)</code>).<br> Each <code>offset</code> component <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②④⓪">must</a> be at least <code>-8</code> and at most <code>7</code>. Values outside
-  of this range will result in a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②④①">shader-creation error</a>. 
+  texture wrapping modes.<br> The <code>offset</code> expression <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②④⓪">must</a> be a <a data-link-type="dfn" href="#const-expressions" id="ref-for-const-expressions⑤⑤">const-expression</a> (e.g. <code>vec2&lt;i32>(1, 2)</code>).<br> Each <code>offset</code> component <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②④①">must</a> be at least <code>-8</code> and at most <code>7</code>. Values outside
+  of this range will result in a <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②④②">shader-creation error</a>. 
    </table>
    <p><strong>Returns:</strong></p>
    <p>The sampled value.</p>
@@ -15047,10 +15105,10 @@ ordering</a>.  This means synchronization and ordering guarantees only apply amo
 atomic operations acting on the same <a data-link-type="dfn" href="#memory-locations" id="ref-for-memory-locations①⑧">memory locations</a>.  No synchronization
 or ordering guarantees apply between atomic and non-atomic memory accesses, or
 between atomic accesses acting on different memory locations.</p>
-   <p>Atomic built-in functions <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②④②">must not</a> be used in a <a data-link-type="dfn" href="#vertex" id="ref-for-vertex④">vertex</a> shader stage.</p>
+   <p>Atomic built-in functions <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②④③">must not</a> be used in a <a data-link-type="dfn" href="#vertex" id="ref-for-vertex④">vertex</a> shader stage.</p>
    <p>The address space <code>AS</code> of the <code>atomic_ptr</code> parameter in all atomic built-in
-functions <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②④③">must</a> be either <a data-link-type="dfn" href="#address-spaces-storage" id="ref-for-address-spaces-storage②①">storage</a> or <a data-link-type="dfn" href="#address-spaces-workgroup" id="ref-for-address-spaces-workgroup①⑧">workgroup</a>.</p>
-   <p><var>T</var> <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②④④">must</a> be either <a data-link-type="dfn" href="#u32" id="ref-for-u32⑨④">u32</a> or <a data-link-type="dfn" href="#i32" id="ref-for-i32①⓪⑥">i32</a></p>
+functions <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②④④">must</a> be either <a data-link-type="dfn" href="#address-spaces-storage" id="ref-for-address-spaces-storage②①">storage</a> or <a data-link-type="dfn" href="#address-spaces-workgroup" id="ref-for-address-spaces-workgroup①⑧">workgroup</a>.</p>
+   <p><var>T</var> <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②④⑤">must</a> be either <a data-link-type="dfn" href="#u32" id="ref-for-u32⑨④">u32</a> or <a data-link-type="dfn" href="#i32" id="ref-for-i32①⓪⑥">i32</a></p>
    <h4 class="heading settled" data-level="17.6.1" id="atomic-load"><span class="secno">17.6.1. </span><span class="content">Atomic Load</span><a class="self-link" href="#atomic-load"></a></h4>
 <pre class="language-rust highlight"><c- k>fn</c-> <c- nf>atomicLoad</c-><c- p>(</c-><c- n>atomic_ptr</c->: <c- nc>ptr</c-><c- o>&lt;</c-><c- n>AS</c-><c- p>,</c-> <c- n>atomic</c-><c- o>&lt;</c-><c- n>T</c-><c- o>></c-><c- p>,</c-> <c- n>read_write</c-><c- o>></c-><c- p>)</c-> -> <c- nc>T</c->
 </pre>
@@ -15284,7 +15342,7 @@ workgroup before any affected memory or atomic operation program-ordered after
 the synchronization function is executed by a member of the workgroup.
 All synchronization functions use the <code>Workgroup</code> <a data-link-type="dfn" href="#memory-scope" id="ref-for-memory-scope①">memory scope</a>.
 All synchronization functions have a <code>Workgroup</code> <a data-link-type="dfn" href="#execution-scope" id="ref-for-execution-scope">execution scope</a>.
-All synchronization functions <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②④⑤">must</a> only be used in the <a data-link-type="dfn" href="#compute" id="ref-for-compute③">compute</a> shader
+All synchronization functions <a data-link-type="dfn" href="#shader-creation-error" id="ref-for-shader-creation-error②④⑥">must</a> only be used in the <a data-link-type="dfn" href="#compute" id="ref-for-compute③">compute</a> shader
 stage.</p>
    <p><code>storageBarrier</code> affects memory and atomic operations in the <a data-link-type="dfn" href="#address-spaces-storage" id="ref-for-address-spaces-storage②②">storage</a> address space.</p>
    <p><code>workgroupBarrier</code> affects memory and atomic operations in the <a data-link-type="dfn" href="#address-spaces-workgroup" id="ref-for-address-spaces-workgroup①⑨">workgroup</a> address space.</p>
@@ -15407,12 +15465,6 @@ Use token definitions from the main part of the specification.</p>
     <p>| <a data-link-type="dfn" href="#syntax-brace_left" id="ref-for-syntax-brace_left⑤">brace_left</a> <a data-link-type="dfn" href="#recursive-descent-syntax-statement" id="ref-for-recursive-descent-syntax-statement">statement</a> * <a data-link-type="dfn" href="#syntax-brace_right" id="ref-for-syntax-brace_right⑤">brace_right</a></p>
    </div>
    <div class="syntax">
-     <dfn class="dfn-paneled" data-dfn-for="recursive descent syntax" data-dfn-type="dfn" data-noexport id="recursive-descent-syntax-const_literal">const_literal</dfn>: 
-    <p>| <a data-link-type="dfn" href="#recursive-descent-syntax-bool_literal" id="ref-for-recursive-descent-syntax-bool_literal">bool_literal</a></p>
-    <p>| <a data-link-type="dfn" href="#recursive-descent-syntax-float_literal" id="ref-for-recursive-descent-syntax-float_literal">float_literal</a></p>
-    <p>| <a data-link-type="dfn" href="#recursive-descent-syntax-int_literal" id="ref-for-recursive-descent-syntax-int_literal">int_literal</a></p>
-   </div>
-   <div class="syntax">
      <dfn class="dfn-paneled" data-dfn-for="recursive descent syntax" data-dfn-type="dfn" data-noexport id="recursive-descent-syntax-core_lhs_expression">core_lhs_expression</dfn>: 
     <p>| <a data-link-type="dfn" href="#recursive-descent-syntax-ident" id="ref-for-recursive-descent-syntax-ident①">ident</a></p>
     <p>| <a data-link-type="dfn" href="#syntax-paren_left" id="ref-for-syntax-paren_left②⑨">paren_left</a> <a data-link-type="dfn" href="#recursive-descent-syntax-lhs_expression" id="ref-for-recursive-descent-syntax-lhs_expression">lhs_expression</a> <a data-link-type="dfn" href="#syntax-paren_right" id="ref-for-syntax-paren_right①⑧">paren_right</a></p>
@@ -15424,6 +15476,11 @@ Use token definitions from the main part of the specification.</p>
     <p>| <code>/[0-9]+[eE][+-]?[0-9]+[fh]?/</code></p>
     <p>| <code>/[0-9]+\.[0-9]*([eE][+-]?[0-9]+)?[fh]?/</code></p>
     <p>| <code>/[1-9][0-9]*[fh]/</code></p>
+   </div>
+   <div class="syntax">
+     <dfn class="dfn-paneled" data-dfn-for="recursive descent syntax" data-dfn-type="dfn" data-noexport id="recursive-descent-syntax-decimal_int_literal">decimal_int_literal</dfn>: 
+    <p>| <code>/0[iu]?/</code></p>
+    <p>| <code>/[1-9][0-9]*[iu]?/</code></p>
    </div>
    <div class="syntax">
      <dfn class="dfn-paneled" data-dfn-for="recursive descent syntax" data-dfn-type="dfn" data-noexport id="recursive-descent-syntax-depth_texture_type">depth_texture_type</dfn>: 
@@ -15485,9 +15542,8 @@ Use token definitions from the main part of the specification.</p>
    <div class="syntax"> <dfn class="dfn-paneled" data-dfn-for="recursive descent syntax" data-dfn-type="dfn" data-noexport id="recursive-descent-syntax-ident">ident</dfn>: <a data-link-type="dfn" href="#syntax-ident_pattern_token" id="ref-for-syntax-ident_pattern_token②">ident_pattern_token</a> </div>
    <div class="syntax">
      <dfn class="dfn-paneled" data-dfn-for="recursive descent syntax" data-dfn-type="dfn" data-noexport id="recursive-descent-syntax-int_literal">int_literal</dfn>: 
-    <p>| <code>/0[iu]?/</code></p>
-    <p>| <code>/0[xX][0-9a-fA-F]+[iu]?/</code></p>
-    <p>| <code>/[1-9][0-9]*[iu]?/</code></p>
+    <p>| <a data-link-type="dfn" href="#recursive-descent-syntax-decimal_int_literal" id="ref-for-recursive-descent-syntax-decimal_int_literal">decimal_int_literal</a></p>
+    <p>| <a data-link-type="dfn" href="#syntax-hex_int_literal" id="ref-for-syntax-hex_int_literal①">hex_int_literal</a></p>
    </div>
    <div class="syntax">
      <dfn class="dfn-paneled" data-dfn-for="recursive descent syntax" data-dfn-type="dfn" data-noexport id="recursive-descent-syntax-interpolation_sample_name">interpolation_sample_name</dfn>: 
@@ -15504,6 +15560,12 @@ Use token definitions from the main part of the specification.</p>
    <div class="syntax">
      <dfn class="dfn-paneled" data-dfn-for="recursive descent syntax" data-dfn-type="dfn" data-noexport id="recursive-descent-syntax-lhs_expression">lhs_expression</dfn>: 
     <p>| ( <a data-link-type="dfn" href="#syntax-star" id="ref-for-syntax-star③">star</a> | <a data-link-type="dfn" href="#syntax-and" id="ref-for-syntax-and⑥">and</a> ) * <a data-link-type="dfn" href="#recursive-descent-syntax-core_lhs_expression" id="ref-for-recursive-descent-syntax-core_lhs_expression">core_lhs_expression</a> <a data-link-type="dfn" href="#recursive-descent-syntax-postfix_expression" id="ref-for-recursive-descent-syntax-postfix_expression">postfix_expression</a> ?</p>
+   </div>
+   <div class="syntax">
+     <dfn class="dfn-paneled" data-dfn-for="recursive descent syntax" data-dfn-type="dfn" data-noexport id="recursive-descent-syntax-literal">literal</dfn>: 
+    <p>| <a data-link-type="dfn" href="#recursive-descent-syntax-bool_literal" id="ref-for-recursive-descent-syntax-bool_literal">bool_literal</a></p>
+    <p>| <a data-link-type="dfn" href="#recursive-descent-syntax-float_literal" id="ref-for-recursive-descent-syntax-float_literal">float_literal</a></p>
+    <p>| <a data-link-type="dfn" href="#recursive-descent-syntax-int_literal" id="ref-for-recursive-descent-syntax-int_literal">int_literal</a></p>
    </div>
    <div class="syntax">
      <dfn class="dfn-paneled" data-dfn-for="recursive descent syntax" data-dfn-type="dfn" data-noexport id="recursive-descent-syntax-mat_prefix">mat_prefix</dfn>: 
@@ -15541,8 +15603,8 @@ Use token definitions from the main part of the specification.</p>
    <div class="syntax">
      <dfn class="dfn-paneled" data-dfn-for="recursive descent syntax" data-dfn-type="dfn" data-noexport id="recursive-descent-syntax-primary_expression">primary_expression</dfn>: 
     <p>| <a data-link-type="dfn" href="#recursive-descent-syntax-callable" id="ref-for-recursive-descent-syntax-callable">callable</a> <a data-link-type="dfn" href="#syntax-paren_left" id="ref-for-syntax-paren_left③②">paren_left</a> ( <a data-link-type="dfn" href="#recursive-descent-syntax-expression" id="ref-for-recursive-descent-syntax-expression②⓪">expression</a> ( <a data-link-type="dfn" href="#syntax-comma" id="ref-for-syntax-comma④①">comma</a> <a data-link-type="dfn" href="#recursive-descent-syntax-expression" id="ref-for-recursive-descent-syntax-expression②①">expression</a> )* <a data-link-type="dfn" href="#syntax-comma" id="ref-for-syntax-comma④②">comma</a> ? )? <a data-link-type="dfn" href="#syntax-paren_right" id="ref-for-syntax-paren_right②①">paren_right</a></p>
-    <p>| <a data-link-type="dfn" href="#recursive-descent-syntax-const_literal" id="ref-for-recursive-descent-syntax-const_literal">const_literal</a></p>
     <p>| <a data-link-type="dfn" href="#recursive-descent-syntax-ident" id="ref-for-recursive-descent-syntax-ident①⓪">ident</a></p>
+    <p>| <a data-link-type="dfn" href="#recursive-descent-syntax-literal" id="ref-for-recursive-descent-syntax-literal">literal</a></p>
     <p>| <a data-link-type="dfn" href="#syntax-paren_left" id="ref-for-syntax-paren_left③③">paren_left</a> <a data-link-type="dfn" href="#recursive-descent-syntax-expression" id="ref-for-recursive-descent-syntax-expression②②">expression</a> <a data-link-type="dfn" href="#syntax-paren_right" id="ref-for-syntax-paren_right②②">paren_right</a></p>
     <p>| <code>'bitcast'</code> <a data-link-type="dfn" href="#syntax-less_than" id="ref-for-syntax-less_than①②">less_than</a> <a data-link-type="dfn" href="#recursive-descent-syntax-type_decl" id="ref-for-recursive-descent-syntax-type_decl⑦">type_decl</a> <a data-link-type="dfn" href="#syntax-greater_than" id="ref-for-syntax-greater_than①②">greater_than</a> <a data-link-type="dfn" href="#syntax-paren_left" id="ref-for-syntax-paren_left③④">paren_left</a> <a data-link-type="dfn" href="#recursive-descent-syntax-expression" id="ref-for-recursive-descent-syntax-expression②③">expression</a> <a data-link-type="dfn" href="#syntax-paren_right" id="ref-for-syntax-paren_right②③">paren_right</a></p>
    </div>
@@ -15828,7 +15890,7 @@ Use token definitions from the main part of the specification.</p>
     bool_literal
     <ul>
      <li><a href="#recursive-descent-syntax-bool_literal">dfn for recursive descent syntax</a><span>, in § 18</span>
-     <li><a href="#syntax-bool_literal">dfn for syntax</a><span>, in § 3.5</span>
+     <li><a href="#syntax-bool_literal">dfn for syntax</a><span>, in § 3.5.1</span>
     </ul>
    <li><a href="#syntax-brace_left">brace_left</a><span>, in § 15.3</span>
    <li><a href="#syntax-brace_right">brace_right</a><span>, in § 15.3</span>
@@ -15926,12 +15988,6 @@ Use token definitions from the main part of the specification.</p>
    <li><a href="#const-declaration">const-declaration</a><span>, in § 6.2.1</span>
    <li><a href="#const-expressions">const-expressions</a><span>, in § 7.1.1</span>
    <li><a href="#const-functions">const-functions</a><span>, in § 9.3</span>
-   <li>
-    const_literal
-    <ul>
-     <li><a href="#recursive-descent-syntax-const_literal">dfn for recursive descent syntax</a><span>, in § 18</span>
-     <li><a href="#syntax-const_literal">dfn for syntax</a><span>, in § 3.5</span>
-    </ul>
    <li><a href="#constructible">constructible</a><span>, in § 5.2.12</span>
    <li><a href="#context-dependent-name">context-dependent name</a><span>, in § 3.8</span>
    <li>
@@ -15960,12 +16016,18 @@ Use token definitions from the main part of the specification.</p>
     </ul>
    <li><a href="#correctly-rounded">correctly rounded</a><span>, in § 13.6.1</span>
    <li><a href="#creation-fixed-footprint">creation-fixed footprint</a><span>, in § 5.2.13</span>
-   <li><a href="#decimal-floating-point-literal">decimal floating point literal</a><span>, in § 3.5</span>
+   <li><a href="#decimal-floating-point-literal">decimal floating point literal</a><span>, in § 3.5.2</span>
    <li>
     decimal_float_literal
     <ul>
      <li><a href="#recursive-descent-syntax-decimal_float_literal">dfn for recursive descent syntax</a><span>, in § 18</span>
-     <li><a href="#syntax-decimal_float_literal">dfn for syntax</a><span>, in § 3.5</span>
+     <li><a href="#syntax-decimal_float_literal">dfn for syntax</a><span>, in § 3.5.2</span>
+    </ul>
+   <li>
+    decimal_int_literal
+    <ul>
+     <li><a href="#recursive-descent-syntax-decimal_int_literal">dfn for recursive descent syntax</a><span>, in § 18</span>
+     <li><a href="#syntax-decimal_int_literal">dfn for syntax</a><span>, in § 3.5.2</span>
     </ul>
    <li><a href="#declaration">declaration</a><span>, in § 4</span>
    <li><a href="#decrement-statement">decrement statement</a><span>, in § 8.3</span>
@@ -16036,12 +16098,12 @@ Use token definitions from the main part of the specification.</p>
    <li><a href="#fixed-size-array">fixed-size array</a><span>, in § 5.2.9</span>
    <li><a href="#syntax-float16">float16</a><span>, in § 15.1.1</span>
    <li><a href="#syntax-float32">float32</a><span>, in § 15.1.1</span>
-   <li><a href="#floating-point-literal">floating point literal</a><span>, in § 3.5</span>
+   <li><a href="#floating-point-literal">floating point literal</a><span>, in § 3.5.2</span>
    <li>
     float_literal
     <ul>
      <li><a href="#recursive-descent-syntax-float_literal">dfn for recursive descent syntax</a><span>, in § 18</span>
-     <li><a href="#syntax-float_literal">dfn for syntax</a><span>, in § 3.5</span>
+     <li><a href="#syntax-float_literal">dfn for syntax</a><span>, in § 3.5.2</span>
     </ul>
    <li><a href="#floor-expression">floor expression</a><span>, in § 1.2</span>
    <li><a href="#syntax-fn">fn</a><span>, in § 15.1.2</span>
@@ -16115,13 +16177,14 @@ Use token definitions from the main part of the specification.</p>
    <li><a href="#attribute-group">group</a><span>, in § 3.9</span>
    <li><a href="#address-spaces-handle">handle</a><span>, in § 5.3.5</span>
    <li><a href="#helper-invocation">helper invocation</a><span>, in § 13.4</span>
-   <li><a href="#hexadecimal-floating-point-literal">hexadecimal floating point literal</a><span>, in § 3.5</span>
+   <li><a href="#hexadecimal-floating-point-literal">hexadecimal floating point literal</a><span>, in § 3.5.2</span>
    <li>
     hex_float_literal
     <ul>
      <li><a href="#recursive-descent-syntax-hex_float_literal">dfn for recursive descent syntax</a><span>, in § 18</span>
-     <li><a href="#syntax-hex_float_literal">dfn for syntax</a><span>, in § 3.5</span>
+     <li><a href="#syntax-hex_float_literal">dfn for syntax</a><span>, in § 3.5.2</span>
     </ul>
+   <li><a href="#syntax-hex_int_literal">hex_int_literal</a><span>, in § 3.5.2</span>
    <li><a href="#host-shareable">host-shareable</a><span>, in § 5.3.4</span>
    <li><a href="#i32">i32</a><span>, in § 5.2.3</span>
    <li><a href="#attribute-id">id</a><span>, in § 3.9</span>
@@ -16148,7 +16211,7 @@ Use token definitions from the main part of the specification.</p>
    <li><a href="#in-scope">in scope</a><span>, in § 4</span>
    <li><a href="#built-in-values-instance_index">instance_index</a><span>, in § 16</span>
    <li><a href="#syntax-int32">int32</a><span>, in § 15.1.1</span>
-   <li><a href="#integer-literal">integer literal</a><span>, in § 3.5</span>
+   <li><a href="#integer-literal">integer literal</a><span>, in § 3.5.2</span>
    <li><a href="#integer-scalar">integer scalar</a><span>, in § 5.2.5</span>
    <li><a href="#interface-of-a-shader-stage">interface of a shader stage</a><span>, in § 10.3</span>
    <li><a href="#attribute-interpolate">interpolate</a><span>, in § 3.9</span>
@@ -16170,7 +16233,7 @@ Use token definitions from the main part of the specification.</p>
     int_literal
     <ul>
      <li><a href="#recursive-descent-syntax-int_literal">dfn for recursive descent syntax</a><span>, in § 18</span>
-     <li><a href="#syntax-int_literal">dfn for syntax</a><span>, in § 3.5</span>
+     <li><a href="#syntax-int_literal">dfn for syntax</a><span>, in § 3.5.2</span>
     </ul>
    <li><a href="#invalid-memory-reference">invalid memory reference</a><span>, in § 5.4.4</span>
    <li><a href="#attribute-invariant">invariant</a><span>, in § 3.9</span>
@@ -16193,7 +16256,13 @@ Use token definitions from the main part of the specification.</p>
    <li><a href="#lifetime">lifetime</a><span>, in § 6.3</span>
    <li><a href="#line-break">line break</a><span>, in § 3.2</span>
    <li><a href="#line-ending-comment">line-ending comment</a><span>, in § 3.3</span>
-   <li><a href="#literal">literal</a><span>, in § 3.5</span>
+   <li>
+    literal
+    <ul>
+     <li><a href="#literal">definition of</a><span>, in § 3.5</span>
+     <li><a href="#recursive-descent-syntax-literal">dfn for recursive descent syntax</a><span>, in § 18</span>
+     <li><a href="#syntax-literal">dfn for syntax</a><span>, in § 3.5</span>
+    </ul>
    <li><a href="#load-rule">Load Rule</a><span>, in § 5.4.5</span>
    <li><a href="#local-invocation-id">local invocation ID</a><span>, in § 13.3</span>
    <li><a href="#built-in-values-local_invocation_id">local_invocation_id</a><span>, in § 16</span>
@@ -16303,12 +16372,9 @@ Use token definitions from the main part of the specification.</p>
    <li><a href="#pipeline-constant-id">pipeline constant ID</a><span>, in § 6.2.2</span>
    <li><a href="#pipeline-creation">Pipeline creation</a><span>, in § 2</span>
    <li><a href="#pipeline-creation-error">pipeline-creation error</a><span>, in § 2.1</span>
-   <li><a href="#pipeline-input">pipeline input</a><span>, in § 10.3.1</span>
-   <li><a href="#pipeline-output">pipeline output</a><span>, in § 10.3.1</span>
    <li><a href="#pipeline-overridable">pipeline-overridable</a><span>, in § 6.2.2</span>
    <li><a href="#pipeline-overridable-constant-default-value">pipeline-overridable constant default value</a><span>, in § 6.2.2</span>
    <li><a href="#pipeline-overridable-constant-identifier-string">pipeline-overridable constant identifier string</a><span>, in § 6.2.2</span>
-   <li><a href="#pipeline-stage-attributes">pipeline stage attributes</a><span>, in § 3.9</span>
    <li><a href="#plain-type">plain type</a><span>, in § 5.2</span>
    <li><a href="#syntax-plus">plus</a><span>, in § 15.3</span>
    <li><a href="#syntax-plus_equal">plus_equal</a><span>, in § 15.3</span>
@@ -16407,6 +16473,9 @@ Use token definitions from the main part of the specification.</p>
    <li><a href="#shader-execution-end">Shader execution end</a><span>, in § 2</span>
    <li><a href="#shader-execution-start">Shader execution start</a><span>, in § 2</span>
    <li><a href="#shader-module-creation">Shader module creation</a><span>, in § 2</span>
+   <li><a href="#shader-stage-attributes">shader stage attributes</a><span>, in § 3.9</span>
+   <li><a href="#shader-stage-input">shader stage input</a><span>, in § 10.3.1</span>
+   <li><a href="#shader-stage-output">shader stage output</a><span>, in § 10.3.1</span>
    <li><a href="#shader-stages">shader stages</a><span>, in § 10.1</span>
    <li><a href="#syntax-shift_expression">shift_expression</a><span>, in § 7.17</span>
    <li><a href="#recursive-descent-syntax-shift_expressionpostunary_expression">shift_expression.post.unary_expression</a><span>, in § 18</span>
@@ -16931,7 +17000,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
    <ul>
     <li><a href="#ref-for-shader-creation-error">3. Textual Structure</a>
     <li><a href="#ref-for-shader-creation-error①">3.1. Parsing</a>
-    <li><a href="#ref-for-shader-creation-error②">3.5. Literals</a> <a href="#ref-for-shader-creation-error③">(2)</a> <a href="#ref-for-shader-creation-error④">(3)</a>
+    <li><a href="#ref-for-shader-creation-error②">3.5.2. Numeric Literals</a> <a href="#ref-for-shader-creation-error③">(2)</a> <a href="#ref-for-shader-creation-error④">(3)</a>
     <li><a href="#ref-for-shader-creation-error⑤">3.7. Identifiers</a> <a href="#ref-for-shader-creation-error⑥">(2)</a> <a href="#ref-for-shader-creation-error⑦">(3)</a>
     <li><a href="#ref-for-shader-creation-error⑧">3.9. Attributes</a> <a href="#ref-for-shader-creation-error⑨">(2)</a> <a href="#ref-for-shader-creation-error①⓪">(3)</a> <a href="#ref-for-shader-creation-error①①">(4)</a> <a href="#ref-for-shader-creation-error①②">(5)</a> <a href="#ref-for-shader-creation-error①③">(6)</a> <a href="#ref-for-shader-creation-error①④">(7)</a> <a href="#ref-for-shader-creation-error①⑤">(8)</a> <a href="#ref-for-shader-creation-error①⑥">(9)</a> <a href="#ref-for-shader-creation-error①⑦">(10)</a> <a href="#ref-for-shader-creation-error①⑧">(11)</a> <a href="#ref-for-shader-creation-error①⑨">(12)</a> <a href="#ref-for-shader-creation-error②⓪">(13)</a> <a href="#ref-for-shader-creation-error②①">(14)</a> <a href="#ref-for-shader-creation-error②②">(15)</a> <a href="#ref-for-shader-creation-error②③">(16)</a> <a href="#ref-for-shader-creation-error②④">(17)</a> <a href="#ref-for-shader-creation-error②⑤">(18)</a> <a href="#ref-for-shader-creation-error②⑥">(19)</a> <a href="#ref-for-shader-creation-error②⑦">(20)</a> <a href="#ref-for-shader-creation-error②⑧">(21)</a> <a href="#ref-for-shader-creation-error②⑨">(22)</a> <a href="#ref-for-shader-creation-error③⓪">(23)</a> <a href="#ref-for-shader-creation-error③①">(24)</a> <a href="#ref-for-shader-creation-error③②">(25)</a> <a href="#ref-for-shader-creation-error③③">(26)</a> <a href="#ref-for-shader-creation-error③④">(27)</a> <a href="#ref-for-shader-creation-error③⑤">(28)</a> <a href="#ref-for-shader-creation-error③⑥">(29)</a> <a href="#ref-for-shader-creation-error③⑦">(30)</a> <a href="#ref-for-shader-creation-error③⑧">(31)</a> <a href="#ref-for-shader-creation-error③⑨">(32)</a> <a href="#ref-for-shader-creation-error④⓪">(33)</a> <a href="#ref-for-shader-creation-error④①">(34)</a> <a href="#ref-for-shader-creation-error④②">(35)</a> <a href="#ref-for-shader-creation-error④③">(36)</a> <a href="#ref-for-shader-creation-error④④">(37)</a> <a href="#ref-for-shader-creation-error④⑤">(38)</a>
     <li><a href="#ref-for-shader-creation-error④⑥">3.10. Directives</a>
@@ -17002,24 +17071,25 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
     <li><a href="#ref-for-shader-creation-error①⑨②">13.2.3. Analyzing the Uniformity Requirements of a Function</a> <a href="#ref-for-shader-creation-error①⑨③">(2)</a> <a href="#ref-for-shader-creation-error①⑨④">(3)</a> <a href="#ref-for-shader-creation-error①⑨⑤">(4)</a> <a href="#ref-for-shader-creation-error①⑨⑥">(5)</a> <a href="#ref-for-shader-creation-error①⑨⑦">(6)</a>
     <li><a href="#ref-for-shader-creation-error①⑨⑧">13.5.1. Barriers</a>
     <li><a href="#ref-for-shader-creation-error①⑨⑨">13.5.2. Derivatives</a>
-    <li><a href="#ref-for-shader-creation-error②⓪⓪">13.6.2. Floating Point Conversion</a>
-    <li><a href="#ref-for-shader-creation-error②⓪①">15.2. Reserved Words</a>
-    <li><a href="#ref-for-shader-creation-error②⓪②">17. Built-in Functions</a>
-    <li><a href="#ref-for-shader-creation-error②⓪③">17.3.10. clamp</a>
-    <li><a href="#ref-for-shader-creation-error②⓪④">17.3.23. extractBits (signed)</a>
-    <li><a href="#ref-for-shader-creation-error②⓪⑤">17.3.24. extractBits (unsigned)</a>
-    <li><a href="#ref-for-shader-creation-error②⓪⑥">17.4. Derivative Built-in Functions</a> <a href="#ref-for-shader-creation-error②⓪⑦">(2)</a>
-    <li><a href="#ref-for-shader-creation-error②⓪⑧">17.5. Texture Built-in Functions</a>
-    <li><a href="#ref-for-shader-creation-error②⓪⑨">17.5.2. textureGather</a> <a href="#ref-for-shader-creation-error②①⓪">(2)</a> <a href="#ref-for-shader-creation-error②①①">(3)</a> <a href="#ref-for-shader-creation-error②①②">(4)</a> <a href="#ref-for-shader-creation-error②①③">(5)</a>
-    <li><a href="#ref-for-shader-creation-error②①④">17.5.3. textureGatherCompare</a> <a href="#ref-for-shader-creation-error②①⑤">(2)</a> <a href="#ref-for-shader-creation-error②①⑥">(3)</a>
-    <li><a href="#ref-for-shader-creation-error②①⑦">17.5.8. textureSample</a> <a href="#ref-for-shader-creation-error②①⑧">(2)</a> <a href="#ref-for-shader-creation-error②①⑨">(3)</a> <a href="#ref-for-shader-creation-error②②⓪">(4)</a> <a href="#ref-for-shader-creation-error②②①">(5)</a>
-    <li><a href="#ref-for-shader-creation-error②②②">17.5.9. textureSampleBias</a> <a href="#ref-for-shader-creation-error②②③">(2)</a> <a href="#ref-for-shader-creation-error②②④">(3)</a> <a href="#ref-for-shader-creation-error②②⑤">(4)</a> <a href="#ref-for-shader-creation-error②②⑥">(5)</a> <a href="#ref-for-shader-creation-error②②⑦">(6)</a>
-    <li><a href="#ref-for-shader-creation-error②②⑧">17.5.10. textureSampleCompare</a> <a href="#ref-for-shader-creation-error②②⑨">(2)</a> <a href="#ref-for-shader-creation-error②③⓪">(3)</a> <a href="#ref-for-shader-creation-error②③①">(4)</a> <a href="#ref-for-shader-creation-error②③②">(5)</a>
-    <li><a href="#ref-for-shader-creation-error②③③">17.5.11. textureSampleCompareLevel</a> <a href="#ref-for-shader-creation-error②③④">(2)</a> <a href="#ref-for-shader-creation-error②③⑤">(3)</a>
-    <li><a href="#ref-for-shader-creation-error②③⑥">17.5.12. textureSampleGrad</a> <a href="#ref-for-shader-creation-error②③⑦">(2)</a> <a href="#ref-for-shader-creation-error②③⑧">(3)</a>
-    <li><a href="#ref-for-shader-creation-error②③⑨">17.5.13. textureSampleLevel</a> <a href="#ref-for-shader-creation-error②④⓪">(2)</a> <a href="#ref-for-shader-creation-error②④①">(3)</a>
-    <li><a href="#ref-for-shader-creation-error②④②">17.6. Atomic Built-in Functions</a> <a href="#ref-for-shader-creation-error②④③">(2)</a> <a href="#ref-for-shader-creation-error②④④">(3)</a>
-    <li><a href="#ref-for-shader-creation-error②④⑤">17.9. Synchronization Built-in Functions</a>
+    <li><a href="#ref-for-shader-creation-error②⓪⓪">13.6. Floating Point Evaluation</a>
+    <li><a href="#ref-for-shader-creation-error②⓪①">13.6.2. Floating Point Conversion</a>
+    <li><a href="#ref-for-shader-creation-error②⓪②">15.2. Reserved Words</a>
+    <li><a href="#ref-for-shader-creation-error②⓪③">17. Built-in Functions</a>
+    <li><a href="#ref-for-shader-creation-error②⓪④">17.3.10. clamp</a>
+    <li><a href="#ref-for-shader-creation-error②⓪⑤">17.3.23. extractBits (signed)</a>
+    <li><a href="#ref-for-shader-creation-error②⓪⑥">17.3.24. extractBits (unsigned)</a>
+    <li><a href="#ref-for-shader-creation-error②⓪⑦">17.4. Derivative Built-in Functions</a> <a href="#ref-for-shader-creation-error②⓪⑧">(2)</a>
+    <li><a href="#ref-for-shader-creation-error②⓪⑨">17.5. Texture Built-in Functions</a>
+    <li><a href="#ref-for-shader-creation-error②①⓪">17.5.2. textureGather</a> <a href="#ref-for-shader-creation-error②①①">(2)</a> <a href="#ref-for-shader-creation-error②①②">(3)</a> <a href="#ref-for-shader-creation-error②①③">(4)</a> <a href="#ref-for-shader-creation-error②①④">(5)</a>
+    <li><a href="#ref-for-shader-creation-error②①⑤">17.5.3. textureGatherCompare</a> <a href="#ref-for-shader-creation-error②①⑥">(2)</a> <a href="#ref-for-shader-creation-error②①⑦">(3)</a>
+    <li><a href="#ref-for-shader-creation-error②①⑧">17.5.8. textureSample</a> <a href="#ref-for-shader-creation-error②①⑨">(2)</a> <a href="#ref-for-shader-creation-error②②⓪">(3)</a> <a href="#ref-for-shader-creation-error②②①">(4)</a> <a href="#ref-for-shader-creation-error②②②">(5)</a>
+    <li><a href="#ref-for-shader-creation-error②②③">17.5.9. textureSampleBias</a> <a href="#ref-for-shader-creation-error②②④">(2)</a> <a href="#ref-for-shader-creation-error②②⑤">(3)</a> <a href="#ref-for-shader-creation-error②②⑥">(4)</a> <a href="#ref-for-shader-creation-error②②⑦">(5)</a> <a href="#ref-for-shader-creation-error②②⑧">(6)</a>
+    <li><a href="#ref-for-shader-creation-error②②⑨">17.5.10. textureSampleCompare</a> <a href="#ref-for-shader-creation-error②③⓪">(2)</a> <a href="#ref-for-shader-creation-error②③①">(3)</a> <a href="#ref-for-shader-creation-error②③②">(4)</a> <a href="#ref-for-shader-creation-error②③③">(5)</a>
+    <li><a href="#ref-for-shader-creation-error②③④">17.5.11. textureSampleCompareLevel</a> <a href="#ref-for-shader-creation-error②③⑤">(2)</a> <a href="#ref-for-shader-creation-error②③⑥">(3)</a>
+    <li><a href="#ref-for-shader-creation-error②③⑦">17.5.12. textureSampleGrad</a> <a href="#ref-for-shader-creation-error②③⑧">(2)</a> <a href="#ref-for-shader-creation-error②③⑨">(3)</a>
+    <li><a href="#ref-for-shader-creation-error②④⓪">17.5.13. textureSampleLevel</a> <a href="#ref-for-shader-creation-error②④①">(2)</a> <a href="#ref-for-shader-creation-error②④②">(3)</a>
+    <li><a href="#ref-for-shader-creation-error②④③">17.6. Atomic Built-in Functions</a> <a href="#ref-for-shader-creation-error②④④">(2)</a> <a href="#ref-for-shader-creation-error②④⑤">(3)</a>
+    <li><a href="#ref-for-shader-creation-error②④⑥">17.9. Synchronization Built-in Functions</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="pipeline-creation-error">
@@ -17036,9 +17106,10 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
     <li><a href="#ref-for-pipeline-creation-error①①">7.8. Arithmetic Expressions</a> <a href="#ref-for-pipeline-creation-error①②">(2)</a> <a href="#ref-for-pipeline-creation-error①③">(3)</a> <a href="#ref-for-pipeline-creation-error①④">(4)</a> <a href="#ref-for-pipeline-creation-error①⑤">(5)</a> <a href="#ref-for-pipeline-creation-error①⑥">(6)</a>
     <li><a href="#ref-for-pipeline-creation-error①⑦">7.10. Bit Expressions</a> <a href="#ref-for-pipeline-creation-error①⑧">(2)</a> <a href="#ref-for-pipeline-creation-error①⑨">(3)</a>
     <li><a href="#ref-for-pipeline-creation-error②⓪">10.3.3. Resource Layout Compatibility</a>
-    <li><a href="#ref-for-pipeline-creation-error②①">17.3.10. clamp</a>
-    <li><a href="#ref-for-pipeline-creation-error②②">17.3.23. extractBits (signed)</a>
-    <li><a href="#ref-for-pipeline-creation-error②③">17.3.24. extractBits (unsigned)</a>
+    <li><a href="#ref-for-pipeline-creation-error②①">13.6. Floating Point Evaluation</a>
+    <li><a href="#ref-for-pipeline-creation-error②②">17.3.10. clamp</a>
+    <li><a href="#ref-for-pipeline-creation-error②③">17.3.23. extractBits (signed)</a>
+    <li><a href="#ref-for-pipeline-creation-error②④">17.3.24. extractBits (unsigned)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dynamic-error">
@@ -17108,8 +17179,14 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
   <aside class="dfn-panel" data-for="numeric-literal">
    <b><a href="#numeric-literal">#numeric-literal</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-numeric-literal">3.5. Literals</a> <a href="#ref-for-numeric-literal①">(2)</a>
+    <li><a href="#ref-for-numeric-literal">3.5.2. Numeric Literals</a> <a href="#ref-for-numeric-literal①">(2)</a>
     <li><a href="#ref-for-numeric-literal②">5.2.1. Abstract Numeric Types</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="syntax-literal">
+   <b><a href="#syntax-literal">#syntax-literal</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-syntax-literal">7.17. Expression Grammar Summary</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="syntax-bool_literal">
@@ -17121,7 +17198,8 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
   <aside class="dfn-panel" data-for="integer-literal">
    <b><a href="#integer-literal">#integer-literal</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-integer-literal">3.5. Literals</a> <a href="#ref-for-integer-literal①">(2)</a> <a href="#ref-for-integer-literal②">(3)</a> <a href="#ref-for-integer-literal③">(4)</a> <a href="#ref-for-integer-literal④">(5)</a> <a href="#ref-for-integer-literal⑤">(6)</a> <a href="#ref-for-integer-literal⑥">(7)</a>
+    <li><a href="#ref-for-integer-literal">3.5. Literals</a>
+    <li><a href="#ref-for-integer-literal①">3.5.2. Numeric Literals</a> <a href="#ref-for-integer-literal②">(2)</a> <a href="#ref-for-integer-literal③">(3)</a> <a href="#ref-for-integer-literal④">(4)</a> <a href="#ref-for-integer-literal⑤">(5)</a> <a href="#ref-for-integer-literal⑥">(6)</a>
     <li><a href="#ref-for-integer-literal⑦">5.2.1. Abstract Numeric Types</a>
     <li><a href="#ref-for-integer-literal⑧">7.1.2. override Expressions</a>
     <li><a href="#ref-for-integer-literal⑨">7.2. Literal Value Expressions</a> <a href="#ref-for-integer-literal①⓪">(2)</a> <a href="#ref-for-integer-literal①①">(3)</a>
@@ -17133,10 +17211,24 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
     <li><a href="#ref-for-syntax-int_literal">3.5. Literals</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="syntax-decimal_int_literal">
+   <b><a href="#syntax-decimal_int_literal">#syntax-decimal_int_literal</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-syntax-decimal_int_literal">3.5.2. Numeric Literals</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="syntax-hex_int_literal">
+   <b><a href="#syntax-hex_int_literal">#syntax-hex_int_literal</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-syntax-hex_int_literal">3.5.2. Numeric Literals</a>
+    <li><a href="#ref-for-syntax-hex_int_literal①">18. Grammar for Recursive Descent Parsing</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="floating-point-literal">
    <b><a href="#floating-point-literal">#floating-point-literal</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-floating-point-literal">3.5. Literals</a> <a href="#ref-for-floating-point-literal①">(2)</a> <a href="#ref-for-floating-point-literal②">(3)</a> <a href="#ref-for-floating-point-literal③">(4)</a> <a href="#ref-for-floating-point-literal④">(5)</a>
+    <li><a href="#ref-for-floating-point-literal">3.5. Literals</a>
+    <li><a href="#ref-for-floating-point-literal①">3.5.2. Numeric Literals</a> <a href="#ref-for-floating-point-literal②">(2)</a> <a href="#ref-for-floating-point-literal③">(3)</a> <a href="#ref-for-floating-point-literal④">(4)</a>
     <li><a href="#ref-for-floating-point-literal⑤">5.2.1. Abstract Numeric Types</a>
     <li><a href="#ref-for-floating-point-literal⑥">7.2. Literal Value Expressions</a> <a href="#ref-for-floating-point-literal⑦">(2)</a> <a href="#ref-for-floating-point-literal⑧">(3)</a>
     <li><a href="#ref-for-floating-point-literal⑨">11.2. Extensions list</a> <a href="#ref-for-floating-point-literal①⓪">(2)</a>
@@ -17145,13 +17237,13 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
   <aside class="dfn-panel" data-for="decimal-floating-point-literal">
    <b><a href="#decimal-floating-point-literal">#decimal-floating-point-literal</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-decimal-floating-point-literal">3.5. Literals</a> <a href="#ref-for-decimal-floating-point-literal①">(2)</a>
+    <li><a href="#ref-for-decimal-floating-point-literal">3.5.2. Numeric Literals</a> <a href="#ref-for-decimal-floating-point-literal①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="hexadecimal-floating-point-literal">
    <b><a href="#hexadecimal-floating-point-literal">#hexadecimal-floating-point-literal</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-hexadecimal-floating-point-literal">3.5. Literals</a> <a href="#ref-for-hexadecimal-floating-point-literal①">(2)</a>
+    <li><a href="#ref-for-hexadecimal-floating-point-literal">3.5.2. Numeric Literals</a> <a href="#ref-for-hexadecimal-floating-point-literal①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="syntax-float_literal">
@@ -17163,19 +17255,13 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
   <aside class="dfn-panel" data-for="syntax-decimal_float_literal">
    <b><a href="#syntax-decimal_float_literal">#syntax-decimal_float_literal</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-syntax-decimal_float_literal">3.5. Literals</a>
+    <li><a href="#ref-for-syntax-decimal_float_literal">3.5.2. Numeric Literals</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="syntax-hex_float_literal">
    <b><a href="#syntax-hex_float_literal">#syntax-hex_float_literal</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-syntax-hex_float_literal">3.5. Literals</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="syntax-const_literal">
-   <b><a href="#syntax-const_literal">#syntax-const_literal</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-syntax-const_literal">7.17. Expression Grammar Summary</a>
+    <li><a href="#ref-for-syntax-hex_float_literal">3.5.2. Numeric Literals</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="keyword">
@@ -17279,7 +17365,8 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
    <ul>
     <li><a href="#ref-for-attribute-builtin">5.2.10. Structure Types</a> <a href="#ref-for-attribute-builtin①">(2)</a>
     <li><a href="#ref-for-attribute-builtin②">9.1. Declaring a User-defined Function</a>
-    <li><a href="#ref-for-attribute-builtin③">10.3.1. Pipeline Input and Output Interface</a>
+    <li><a href="#ref-for-attribute-builtin③">10.3.1. Inter-stage Input and Output Interface</a>
+    <li><a href="#ref-for-attribute-builtin④">10.3.1.1. Built-in Inputs and Outputs</a> <a href="#ref-for-attribute-builtin⑤">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="attribute-const">
@@ -17306,7 +17393,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
    <ul>
     <li><a href="#ref-for-attribute-interpolate">5.2.10. Structure Types</a> <a href="#ref-for-attribute-interpolate①">(2)</a>
     <li><a href="#ref-for-attribute-interpolate②">9.1. Declaring a User-defined Function</a>
-    <li><a href="#ref-for-attribute-interpolate③">10.3.1. Pipeline Input and Output Interface</a>
+    <li><a href="#ref-for-attribute-interpolate③">10.3.1. Inter-stage Input and Output Interface</a>
     <li><a href="#ref-for-attribute-interpolate④">10.3.1.4. Interpolation</a>
    </ul>
   </aside>
@@ -17315,7 +17402,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
    <ul>
     <li><a href="#ref-for-attribute-invariant">5.2.10. Structure Types</a> <a href="#ref-for-attribute-invariant①">(2)</a>
     <li><a href="#ref-for-attribute-invariant②">9.1. Declaring a User-defined Function</a>
-    <li><a href="#ref-for-attribute-invariant③">10.3.1. Pipeline Input and Output Interface</a>
+    <li><a href="#ref-for-attribute-invariant③">10.3.1. Inter-stage Input and Output Interface</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="attribute-location">
@@ -17324,7 +17411,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
     <li><a href="#ref-for-attribute-location">3.9. Attributes</a>
     <li><a href="#ref-for-attribute-location①">5.2.10. Structure Types</a> <a href="#ref-for-attribute-location②">(2)</a>
     <li><a href="#ref-for-attribute-location③">9.1. Declaring a User-defined Function</a>
-    <li><a href="#ref-for-attribute-location④">10.3.1. Pipeline Input and Output Interface</a>
+    <li><a href="#ref-for-attribute-location④">10.3.1. Inter-stage Input and Output Interface</a>
     <li><a href="#ref-for-attribute-location⑤">10.3.1.3. Input-output Locations</a>
     <li><a href="#ref-for-attribute-location⑥">10.3.1.4. Interpolation</a>
    </ul>
@@ -17346,12 +17433,12 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
     <li><a href="#ref-for-attribute-workgroup_size②">13.3. Compute Shaders and Workgroups</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="pipeline-stage-attributes">
-   <b><a href="#pipeline-stage-attributes">#pipeline-stage-attributes</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="shader-stage-attributes">
+   <b><a href="#shader-stage-attributes">#shader-stage-attributes</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-pipeline-stage-attributes">9.1. Declaring a User-defined Function</a>
-    <li><a href="#ref-for-pipeline-stage-attributes①">10.2. Entry Point Declaration</a>
-    <li><a href="#ref-for-pipeline-stage-attributes②">10.2.1. Function Attributes for Entry Points</a>
+    <li><a href="#ref-for-shader-stage-attributes">9.1. Declaring a User-defined Function</a>
+    <li><a href="#ref-for-shader-stage-attributes①">10.2. Entry Point Declaration</a>
+    <li><a href="#ref-for-shader-stage-attributes②">10.2.1. Function Attributes for Entry Points</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="attribute-vertex">
@@ -17691,7 +17778,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
   <aside class="dfn-panel" data-for="abstract-numeric-types">
    <b><a href="#abstract-numeric-types">#abstract-numeric-types</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-abstract-numeric-types">3.5. Literals</a>
+    <li><a href="#ref-for-abstract-numeric-types">3.5.2. Numeric Literals</a>
     <li><a href="#ref-for-abstract-numeric-types①">5.2.1. Abstract Numeric Types</a> <a href="#ref-for-abstract-numeric-types②">(2)</a>
     <li><a href="#ref-for-abstract-numeric-types③">6.2.1. const Declarations</a>
     <li><a href="#ref-for-abstract-numeric-types④">7.1.1. const Expressions</a>
@@ -17702,7 +17789,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
   <aside class="dfn-panel" data-for="abstractint">
    <b><a href="#abstractint">#abstractint</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-abstractint">3.5. Literals</a>
+    <li><a href="#ref-for-abstractint">3.5.2. Numeric Literals</a>
     <li><a href="#ref-for-abstractint①">5. Types</a>
     <li><a href="#ref-for-abstractint②">5.1.2. Conversion Rank</a> <a href="#ref-for-abstractint③">(2)</a> <a href="#ref-for-abstractint④">(3)</a> <a href="#ref-for-abstractint⑤">(4)</a> <a href="#ref-for-abstractint⑥">(5)</a> <a href="#ref-for-abstractint⑦">(6)</a> <a href="#ref-for-abstractint⑧">(7)</a>
     <li><a href="#ref-for-abstractint⑨">5.2.1. Abstract Numeric Types</a> <a href="#ref-for-abstractint①⓪">(2)</a> <a href="#ref-for-abstractint①①">(3)</a> <a href="#ref-for-abstractint①②">(4)</a> <a href="#ref-for-abstractint①③">(5)</a>
@@ -17714,7 +17801,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
   <aside class="dfn-panel" data-for="abstractfloat">
    <b><a href="#abstractfloat">#abstractfloat</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-abstractfloat">3.5. Literals</a>
+    <li><a href="#ref-for-abstractfloat">3.5.2. Numeric Literals</a>
     <li><a href="#ref-for-abstractfloat①">5. Types</a>
     <li><a href="#ref-for-abstractfloat②">5.1.2. Conversion Rank</a> <a href="#ref-for-abstractfloat③">(2)</a> <a href="#ref-for-abstractfloat④">(3)</a> <a href="#ref-for-abstractfloat⑤">(4)</a> <a href="#ref-for-abstractfloat⑥">(5)</a> <a href="#ref-for-abstractfloat⑦">(6)</a> <a href="#ref-for-abstractfloat⑧">(7)</a>
     <li><a href="#ref-for-abstractfloat⑨">5.2.1. Abstract Numeric Types</a> <a href="#ref-for-abstractfloat①⓪">(2)</a> <a href="#ref-for-abstractfloat①①">(3)</a> <a href="#ref-for-abstractfloat①②">(4)</a> <a href="#ref-for-abstractfloat①③">(5)</a> <a href="#ref-for-abstractfloat①④">(6)</a> <a href="#ref-for-abstractfloat①⑤">(7)</a> <a href="#ref-for-abstractfloat①⑥">(8)</a>
@@ -17736,7 +17823,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
    <b><a href="#type-concrete">#type-concrete</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-type-concrete">1.1. Technical Overview</a> <a href="#ref-for-type-concrete①">(2)</a>
-    <li><a href="#ref-for-type-concrete②">3.5. Literals</a>
+    <li><a href="#ref-for-type-concrete②">3.5.2. Numeric Literals</a>
     <li><a href="#ref-for-type-concrete③">5.2.8. Atomic Types</a>
     <li><a href="#ref-for-type-concrete④">5.2.9. Array Types</a>
     <li><a href="#ref-for-type-concrete⑤">5.2.10. Structure Types</a>
@@ -17776,7 +17863,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
   <aside class="dfn-panel" data-for="u32">
    <b><a href="#u32">#u32</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-u32">3.5. Literals</a>
+    <li><a href="#ref-for-u32">3.5.2. Numeric Literals</a>
     <li><a href="#ref-for-u32①">3.9. Attributes</a>
     <li><a href="#ref-for-u32②">5.1.2. Conversion Rank</a>
     <li><a href="#ref-for-u32③">5.2.1. Abstract Numeric Types</a>
@@ -17809,7 +17896,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
   <aside class="dfn-panel" data-for="i32">
    <b><a href="#i32">#i32</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-i32">3.5. Literals</a>
+    <li><a href="#ref-for-i32">3.5.2. Numeric Literals</a>
     <li><a href="#ref-for-i32①">3.9. Attributes</a> <a href="#ref-for-i32②">(2)</a> <a href="#ref-for-i32③">(3)</a> <a href="#ref-for-i32④">(4)</a> <a href="#ref-for-i32⑤">(5)</a> <a href="#ref-for-i32⑥">(6)</a> <a href="#ref-for-i32⑦">(7)</a>
     <li><a href="#ref-for-i32⑧">4. Declaration and Scope</a>
     <li><a href="#ref-for-i32⑨">5.1.2. Conversion Rank</a>
@@ -17842,7 +17929,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
   <aside class="dfn-panel" data-for="f32">
    <b><a href="#f32">#f32</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-f32">3.5. Literals</a> <a href="#ref-for-f32①">(2)</a>
+    <li><a href="#ref-for-f32">3.5.2. Numeric Literals</a> <a href="#ref-for-f32①">(2)</a>
     <li><a href="#ref-for-f32②">4. Declaration and Scope</a>
     <li><a href="#ref-for-f32③">5.2.1. Abstract Numeric Types</a> <a href="#ref-for-f32④">(2)</a> <a href="#ref-for-f32⑤">(3)</a> <a href="#ref-for-f32⑥">(4)</a>
     <li><a href="#ref-for-f32⑦">5.2.5. Scalar Types</a> <a href="#ref-for-f32⑧">(2)</a>
@@ -17863,7 +17950,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
   <aside class="dfn-panel" data-for="f16">
    <b><a href="#f16">#f16</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-f16">3.5. Literals</a>
+    <li><a href="#ref-for-f16">3.5.2. Numeric Literals</a>
     <li><a href="#ref-for-f16①">5.2.4. Floating Point Type</a>
     <li><a href="#ref-for-f16②">5.2.5. Scalar Types</a> <a href="#ref-for-f16③">(2)</a>
     <li><a href="#ref-for-f16④">5.2.7. Matrix Types</a>
@@ -17877,7 +17964,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
    <b><a href="#scalar">#scalar</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-scalar">1.1. Technical Overview</a>
-    <li><a href="#ref-for-scalar①">3.5. Literals</a>
+    <li><a href="#ref-for-scalar①">3.5.2. Numeric Literals</a>
     <li><a href="#ref-for-scalar②">3.9. Attributes</a>
     <li><a href="#ref-for-scalar③">5.2. Plain Types</a>
     <li><a href="#ref-for-scalar④">5.2.6. Vector Types</a> <a href="#ref-for-scalar⑤">(2)</a>
@@ -19049,17 +19136,18 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
     <li><a href="#ref-for-const-expressions③⑨">8.6. Static Assertion Statement</a>
     <li><a href="#ref-for-const-expressions④⓪">9.3. const Functions</a> <a href="#ref-for-const-expressions④①">(2)</a>
     <li><a href="#ref-for-const-expressions④②">12.1. Limits</a>
-    <li><a href="#ref-for-const-expressions④③">17.3.10. clamp</a>
-    <li><a href="#ref-for-const-expressions④④">17.3.23. extractBits (signed)</a>
-    <li><a href="#ref-for-const-expressions④⑤">17.3.24. extractBits (unsigned)</a>
-    <li><a href="#ref-for-const-expressions④⑥">17.5.2. textureGather</a> <a href="#ref-for-const-expressions④⑦">(2)</a>
-    <li><a href="#ref-for-const-expressions④⑧">17.5.3. textureGatherCompare</a>
-    <li><a href="#ref-for-const-expressions④⑨">17.5.8. textureSample</a>
-    <li><a href="#ref-for-const-expressions⑤⓪">17.5.9. textureSampleBias</a>
-    <li><a href="#ref-for-const-expressions⑤①">17.5.10. textureSampleCompare</a>
-    <li><a href="#ref-for-const-expressions⑤②">17.5.11. textureSampleCompareLevel</a>
-    <li><a href="#ref-for-const-expressions⑤③">17.5.12. textureSampleGrad</a>
-    <li><a href="#ref-for-const-expressions⑤④">17.5.13. textureSampleLevel</a>
+    <li><a href="#ref-for-const-expressions④③">13.6. Floating Point Evaluation</a>
+    <li><a href="#ref-for-const-expressions④④">17.3.10. clamp</a>
+    <li><a href="#ref-for-const-expressions④⑤">17.3.23. extractBits (signed)</a>
+    <li><a href="#ref-for-const-expressions④⑥">17.3.24. extractBits (unsigned)</a>
+    <li><a href="#ref-for-const-expressions④⑦">17.5.2. textureGather</a> <a href="#ref-for-const-expressions④⑧">(2)</a>
+    <li><a href="#ref-for-const-expressions④⑨">17.5.3. textureGatherCompare</a>
+    <li><a href="#ref-for-const-expressions⑤⓪">17.5.8. textureSample</a>
+    <li><a href="#ref-for-const-expressions⑤①">17.5.9. textureSampleBias</a>
+    <li><a href="#ref-for-const-expressions⑤②">17.5.10. textureSampleCompare</a>
+    <li><a href="#ref-for-const-expressions⑤③">17.5.11. textureSampleCompareLevel</a>
+    <li><a href="#ref-for-const-expressions⑤④">17.5.12. textureSampleGrad</a>
+    <li><a href="#ref-for-const-expressions⑤⑤">17.5.13. textureSampleLevel</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="override-expressions">
@@ -19079,9 +19167,10 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
     <li><a href="#ref-for-override-expressions①⑨">7.6.3. Array Access Expression</a> <a href="#ref-for-override-expressions②⓪">(2)</a> <a href="#ref-for-override-expressions②①">(3)</a>
     <li><a href="#ref-for-override-expressions②②">7.8. Arithmetic Expressions</a> <a href="#ref-for-override-expressions②③">(2)</a> <a href="#ref-for-override-expressions②④">(3)</a> <a href="#ref-for-override-expressions②⑤">(4)</a> <a href="#ref-for-override-expressions②⑥">(5)</a>
     <li><a href="#ref-for-override-expressions②⑦">7.10. Bit Expressions</a> <a href="#ref-for-override-expressions②⑧">(2)</a> <a href="#ref-for-override-expressions②⑨">(3)</a>
-    <li><a href="#ref-for-override-expressions③⓪">17.3.10. clamp</a>
-    <li><a href="#ref-for-override-expressions③①">17.3.23. extractBits (signed)</a>
-    <li><a href="#ref-for-override-expressions③②">17.3.24. extractBits (unsigned)</a>
+    <li><a href="#ref-for-override-expressions③⓪">13.6. Floating Point Evaluation</a>
+    <li><a href="#ref-for-override-expressions③①">17.3.10. clamp</a>
+    <li><a href="#ref-for-override-expressions③②">17.3.23. extractBits (signed)</a>
+    <li><a href="#ref-for-override-expressions③③">17.3.24. extractBits (unsigned)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="zero-value">
@@ -19930,31 +20019,31 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
     <li><a href="#ref-for-statically-accessed④">10.3.2. Resource Interface</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="pipeline-input">
-   <b><a href="#pipeline-input">#pipeline-input</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="shader-stage-input">
+   <b><a href="#shader-stage-input">#shader-stage-input</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-pipeline-input">1.1. Technical Overview</a> <a href="#ref-for-pipeline-input①">(2)</a>
-    <li><a href="#ref-for-pipeline-input②">10.1. Shader Stages</a>
-    <li><a href="#ref-for-pipeline-input③">10.2. Entry Point Declaration</a>
-    <li><a href="#ref-for-pipeline-input④">10.3. Shader Interface</a>
-    <li><a href="#ref-for-pipeline-input⑤">10.3.1. Pipeline Input and Output Interface</a>
+    <li><a href="#ref-for-shader-stage-input">1.1. Technical Overview</a> <a href="#ref-for-shader-stage-input①">(2)</a>
+    <li><a href="#ref-for-shader-stage-input②">10.1. Shader Stages</a>
+    <li><a href="#ref-for-shader-stage-input③">10.2. Entry Point Declaration</a>
+    <li><a href="#ref-for-shader-stage-input④">10.3. Shader Interface</a>
+    <li><a href="#ref-for-shader-stage-input⑤">10.3.1. Inter-stage Input and Output Interface</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="pipeline-output">
-   <b><a href="#pipeline-output">#pipeline-output</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="shader-stage-output">
+   <b><a href="#shader-stage-output">#shader-stage-output</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-pipeline-output">1.1. Technical Overview</a>
-    <li><a href="#ref-for-pipeline-output①">10.1. Shader Stages</a>
-    <li><a href="#ref-for-pipeline-output②">10.2. Entry Point Declaration</a>
-    <li><a href="#ref-for-pipeline-output③">10.3. Shader Interface</a>
-    <li><a href="#ref-for-pipeline-output④">10.3.1. Pipeline Input and Output Interface</a>
+    <li><a href="#ref-for-shader-stage-output">1.1. Technical Overview</a>
+    <li><a href="#ref-for-shader-stage-output①">10.1. Shader Stages</a>
+    <li><a href="#ref-for-shader-stage-output②">10.2. Entry Point Declaration</a>
+    <li><a href="#ref-for-shader-stage-output③">10.3. Shader Interface</a>
+    <li><a href="#ref-for-shader-stage-output④">10.3.1. Inter-stage Input and Output Interface</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="io-attributes">
    <b><a href="#io-attributes">#io-attributes</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-io-attributes">5.2.10. Structure Types</a> <a href="#ref-for-io-attributes①">(2)</a>
-    <li><a href="#ref-for-io-attributes②">10.3.1. Pipeline Input and Output Interface</a>
+    <li><a href="#ref-for-io-attributes②">10.3.1. Inter-stage Input and Output Interface</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="built-in-input-value">
@@ -19962,7 +20051,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
    <ul>
     <li><a href="#ref-for-built-in-input-value">3.9. Attributes</a>
     <li><a href="#ref-for-built-in-input-value①">10.2. Entry Point Declaration</a>
-    <li><a href="#ref-for-built-in-input-value②">10.3.1. Pipeline Input and Output Interface</a>
+    <li><a href="#ref-for-built-in-input-value②">10.3.1. Inter-stage Input and Output Interface</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="built-in-output-value">
@@ -19971,7 +20060,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
     <li><a href="#ref-for-built-in-output-value">3.9. Attributes</a>
     <li><a href="#ref-for-built-in-output-value①">9.4. Restrictions on Functions</a>
     <li><a href="#ref-for-built-in-output-value②">10.2. Entry Point Declaration</a>
-    <li><a href="#ref-for-built-in-output-value③">10.3.1. Pipeline Input and Output Interface</a>
+    <li><a href="#ref-for-built-in-output-value③">10.3.1. Inter-stage Input and Output Interface</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="built-in-values">
@@ -19986,7 +20075,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
    <b><a href="#user-defined-input-datum">#user-defined-input-datum</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-user-defined-input-datum">10.2. Entry Point Declaration</a>
-    <li><a href="#ref-for-user-defined-input-datum①">10.3.1. Pipeline Input and Output Interface</a>
+    <li><a href="#ref-for-user-defined-input-datum①">10.3.1. Inter-stage Input and Output Interface</a>
     <li><a href="#ref-for-user-defined-input-datum②">10.3.1.3. Input-output Locations</a>
     <li><a href="#ref-for-user-defined-input-datum③">13.2. Uniformity</a>
    </ul>
@@ -19995,7 +20084,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
    <b><a href="#user-defined-output-datum">#user-defined-output-datum</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-user-defined-output-datum">10.2. Entry Point Declaration</a>
-    <li><a href="#ref-for-user-defined-output-datum①">10.3.1. Pipeline Input and Output Interface</a>
+    <li><a href="#ref-for-user-defined-output-datum①">10.3.1. Inter-stage Input and Output Interface</a>
     <li><a href="#ref-for-user-defined-output-datum②">10.3.1.3. Input-output Locations</a>
    </ul>
   </aside>
@@ -20021,6 +20110,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
     <li><a href="#ref-for-resource④">3.9. Attributes</a> <a href="#ref-for-resource⑤">(2)</a>
     <li><a href="#ref-for-resource⑥">6.3. var Declarations</a>
     <li><a href="#ref-for-resource⑦">10.1. Shader Stages</a>
+    <li><a href="#ref-for-resource⑧">10.3. Shader Interface</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="resource-interface-of-a-shader">
@@ -20047,7 +20137,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
   <aside class="dfn-panel" data-for="extension-f16">
    <b><a href="#extension-f16">#extension-f16</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-extension-f16">3.5. Literals</a>
+    <li><a href="#ref-for-extension-f16">3.5.2. Numeric Literals</a>
     <li><a href="#ref-for-extension-f16①">5. Types</a>
     <li><a href="#ref-for-extension-f16②">5.2.4. Floating Point Type</a>
    </ul>
@@ -20616,7 +20706,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
   <aside class="dfn-panel" data-for="syntax-false">
    <b><a href="#syntax-false">#syntax-false</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-syntax-false">3.5. Literals</a>
+    <li><a href="#ref-for-syntax-false">3.5.1. Boolean Literals</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="syntax-fn">
@@ -20701,7 +20791,7 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
   <aside class="dfn-panel" data-for="syntax-true">
    <b><a href="#syntax-true">#syntax-true</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-syntax-true">3.5. Literals</a>
+    <li><a href="#ref-for-syntax-true">3.5.1. Boolean Literals</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="syntax-type">
@@ -21266,12 +21356,6 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
     <li><a href="#ref-for-recursive-descent-syntax-compound_statement">18. Grammar for Recursive Descent Parsing</a> <a href="#ref-for-recursive-descent-syntax-compound_statement①">(2)</a> <a href="#ref-for-recursive-descent-syntax-compound_statement②">(3)</a> <a href="#ref-for-recursive-descent-syntax-compound_statement③">(4)</a> <a href="#ref-for-recursive-descent-syntax-compound_statement④">(5)</a> <a href="#ref-for-recursive-descent-syntax-compound_statement⑤">(6)</a> <a href="#ref-for-recursive-descent-syntax-compound_statement⑥">(7)</a> <a href="#ref-for-recursive-descent-syntax-compound_statement⑦">(8)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="recursive-descent-syntax-const_literal">
-   <b><a href="#recursive-descent-syntax-const_literal">#recursive-descent-syntax-const_literal</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-recursive-descent-syntax-const_literal">18. Grammar for Recursive Descent Parsing</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="recursive-descent-syntax-core_lhs_expression">
    <b><a href="#recursive-descent-syntax-core_lhs_expression">#recursive-descent-syntax-core_lhs_expression</a></b><b>Referenced in:</b>
    <ul>
@@ -21282,6 +21366,12 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
    <b><a href="#recursive-descent-syntax-decimal_float_literal">#recursive-descent-syntax-decimal_float_literal</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-recursive-descent-syntax-decimal_float_literal">18. Grammar for Recursive Descent Parsing</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="recursive-descent-syntax-decimal_int_literal">
+   <b><a href="#recursive-descent-syntax-decimal_int_literal">#recursive-descent-syntax-decimal_int_literal</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-recursive-descent-syntax-decimal_int_literal">18. Grammar for Recursive Descent Parsing</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="recursive-descent-syntax-depth_texture_type">
@@ -21366,6 +21456,12 @@ I’ve written what an NVIDIA GPU does.  See https://github.com/google/amber/pul
    <b><a href="#recursive-descent-syntax-lhs_expression">#recursive-descent-syntax-lhs_expression</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-recursive-descent-syntax-lhs_expression">18. Grammar for Recursive Descent Parsing</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="recursive-descent-syntax-literal">
+   <b><a href="#recursive-descent-syntax-literal">#recursive-descent-syntax-literal</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-recursive-descent-syntax-literal">18. Grammar for Recursive Descent Parsing</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="recursive-descent-syntax-mat_prefix">
